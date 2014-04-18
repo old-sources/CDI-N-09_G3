@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="GEST_COMP_IMIE_IHM">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="GEST_COMP_IMIE_SERVICES.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/GEST_COMP_IMIE_SERVICES/GEST_COMP_IMIE_SERVICES">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="GEST_COMP_IMIE_PERSISTENCE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/GEST_COMP_IMIE_PERSISTENCE/GEST_COMP_IMIE_PERSISTENCE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="GEST_COMP_IMIE_IHM"/>
+        <property name="java-output-path" value="/GEST_COMP_IMIE_IHM/build/classes"/>
+    </wb-module>
+</project-modules>

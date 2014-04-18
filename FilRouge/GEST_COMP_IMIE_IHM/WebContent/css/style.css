@@ -1,0 +1,206 @@
+/**************************RESET************************************/
+body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0; padding:0;}
+body{overflow-y: scroll}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+table{ border-collapse:collapse; border-spacing:0;}
+fieldset,img{ border:0;}
+address,caption,cite,code{ font-style:normal; font-weight:normal;}
+ol,ul{ list-style:none;}
+caption,th{ text-align:left;}
+h1,h2,h3,h4,h5,h6{ font-size:100%; font-weight:normal;}
+dt,dd{display:inline-block;vertical-align:top;}
+form{border:none;}
+/****************Style général************************************/
+
+body{
+	font:12px arial;
+	line-height:17px;
+	color:#2a2a2a;
+	text-align:justify;
+	background-color:#2a2a2a;
+}
+
+footer,header, #content{
+	padding:20px;
+	width:980px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#e2e2e2;
+}
+
+
+.red{color:#ee3124; } 
+.yellow{color:#fdb515; }
+.grey1{color:#2a2a2a;}
+.grey2{color:#e2e2e2;}
+.blue{color:#48b9c7;}
+
+a{
+	text-decoration:none;
+	color:#48b9c7;
+	cursor:pointer;
+}
+a:hover {text-decoration:underline; }
+
+.floatLeft{float:left;}
+.stopFloat{clear:both}
+.center{text-align: center;}
+.cursorPointer{cursor:pointer;}
+
+input[type=text],input[type=email],input[type=password],select{width:250px;height:20px;border:none;}
+input[type=password]{font-size:0.9em;margin-bottom: 5px;}
+input[type=button],input[type=submit]{min-height: 20px;min-width: 150px;padding:0 25px;border:solid 1px #48b9c7;color:#48b9c7;background: #2a2a2a;}
+input[type=button]:hover,input[type=submit]:hover{border:solid 1px #fdb515; color:#fdb515;background: #2a2a2a;cursor:pointer;}
+.inputSmall{font-size: 10px;}
+.imgButton{cursor:pointer;border:solid 1px transparent;}
+.imgButton:hover{border:solid 1px #48b9c7;}
+.tdAction img{border:solid 1px transparent;}
+.tdAction img:hover{border:solid 1px #fdb515;}
+.smallButton{width: 50px;border:none;}
+h1
+{
+	color:#FFFFFF;
+	background-color:#fdb515;
+	font-size:1.4em;
+	width:460px;
+	padding:5px;
+	margin:5px 0;
+	font-weight:700;
+}
+
+h2
+{
+	color:#FFFFFF;
+	background-color:#48b9c7;
+	font-size:1.4em;
+	
+	padding:5px 20px;
+	margin:5px 0 15px 0;
+}
+
+[required]
+{
+	border:solid 1px #fdb515;
+}
+:invalid
+{
+	border:solid 1px #FF0000;	
+}
+:valid
+{
+	border:solid 1px #00ff00;
+}
+
+
+
+/****************Style header************************************/
+header{border-bottom: solid 1px #2a2a2a;}
+
+#header_left_block
+{
+	height:85px;
+	width: 184px;
+	background-image: url(../img/logo.png);
+}
+#header_img_logout
+{
+	width:20px;
+}
+#header_right_block
+{
+	text-align: right;
+	width: 760px;
+	font-size:1.4em;
+}
+
+.sectionContent
+{
+	
+	width:470px;
+	margin-right: 20px;
+	float:left;
+}
+
+#contentLeft
+{
+	/*border: solid 1px #d2d2d2;*/
+	padding: 0px 20px 20px 0;
+}
+
+#contentRight
+{
+	/*border: solid 1px #d2d2d2;*/
+	padding: 0px 20px 20px 0;
+}
+
+
+
+/****************Style content************************************/
+
+#content
+{
+	min-height: 500px;
+}
+
+#noteModal ul li{padding:10px 0px 10px 0px;border-bottom:dotted 1px #2a2a2a;}
+
+/*Arianne*/
+#arianne a
+{
+	color:#2a2a2a;
+}
+
+.arianne_arrow
+{
+	width:10px;
+}
+.arianne_flag
+{
+	width: 12px;
+	padding-right: 10px;
+
+}
+
+
+/****************Style dashboard************************************/
+#dashboardProject
+{
+	width:100%;
+}
+#dashboardProject th
+{
+	text-align: center;	
+}
+#dashboardProject td,#dashboardProject th,#dashboardUser td,#dashboardUser th
+{
+	border:solid 1px #ffffff;
+	padding:3px;
+}
+
+/****************Style user************************************/
+.formTitle{float:left;width:150px;}
+.formValue{float: left;width:260px;margin-bottom: 10px;}
+
+.marginAnnotation{
+	font-size:0.9em;
+	font-style: italic;
+	color:#ee3124;
+	margin:10px 0;
+}
+
+.ulMarginLeft li{padding-left: 20px;}
+.star{width:10px;}
+
+#tableauAfficheFull td{padding:5px;border:solid 1px #48b9c7;}
+
+
+/****************Style project************************************/
+
+
+/****************Style footer************************************/
+
+footer
+{
+	border-top: solid 1px #2a2a2a;
+	text-align: center;
+}
