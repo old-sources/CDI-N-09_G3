@@ -40,6 +40,33 @@ public class Year implements Serializable {
 		return this.yearName;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((yearId == null) ? 0 : yearId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Year other = (Year) obj;
+		if (yearId == null) {
+			if (other.yearId != null)
+				return false;
+		} else if (!yearId.equals(other.yearId))
+			return false;
+		return true;
+	}
+
+
 	public void setYearName(String intitule) {
 		this.yearName = intitule;
 	}

@@ -82,4 +82,32 @@ public class Invitation implements Serializable {
 		this.invitedUser = invitedUser;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((invitationId == null) ? 0 : invitationId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Invitation other = (Invitation) obj;
+		if (invitationId == null) {
+			if (other.invitationId != null)
+				return false;
+		} else if (!invitationId.equals(other.invitationId))
+			return false;
+		return true;
+	}
+
 }

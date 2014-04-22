@@ -82,4 +82,32 @@ public class candidate implements Serializable {
 		this.candidateUser = candidateUser;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((candidateId == null) ? 0 : candidateId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		candidate other = (candidate) obj;
+		if (candidateId == null) {
+			if (other.candidateId != null)
+				return false;
+		} else if (!candidateId.equals(other.candidateId))
+			return false;
+		return true;
+	}
+
 }
