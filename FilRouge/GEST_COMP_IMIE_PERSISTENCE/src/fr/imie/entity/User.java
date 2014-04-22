@@ -1,8 +1,17 @@
 package fr.imie.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the utilisateur database table.
@@ -23,6 +32,7 @@ public class User implements Serializable {
 	private Boolean protectedData;
 	private Rights rights;
 	private Year year;
+	private List<EvaluatedSkill> evaluatedSkills;
 	
 	@Id
 	@Column(name="utilisateur_id")
@@ -42,14 +52,11 @@ public class User implements Serializable {
 		this.description = description;
 	}
 	
-	
-	
 	@Basic
 	@Column(name="dispo")
 	public Boolean getAvaibility() {
 		return avaibility;
 	}
-
 
 	public void setAvaibility(Boolean avaibility) {
 		this.avaibility = avaibility;
@@ -77,7 +84,6 @@ public class User implements Serializable {
 		return password;
 	}
 
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -87,7 +93,6 @@ public class User implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -99,7 +104,6 @@ public class User implements Serializable {
 		return firstName;
 	}
 
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -109,12 +113,15 @@ public class User implements Serializable {
 		return protectedData;
 	}
 
-
+	//bi-directional many-to-one association to evaluatedSkills
+		@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
+		public List<EvaluatedSkill> getEvaluatedSkills(){
+			return this.evaluatedSkills;
+		}
+		
 	public void setProtectedData(Boolean protectedData) {
 		this.protectedData = protectedData;
 	}
-
-
 	
 	//uni-directional many-to-one association to Rights
 		@ManyToOne
@@ -127,7 +134,6 @@ public class User implements Serializable {
 			this.rights = rights;
 		}
 
-
 		//uni-directional many-to-one association to YearName
 		@ManyToOne
 		@JoinColumn(name="promotion_id")
@@ -139,11 +145,14 @@ public class User implements Serializable {
 			this.year= yearName;
 		}
 	
-
 	public User() {
 	}
 
-
+	public Integer scoreWithSkills( List<Skill> skills){
+		Integer score=0;
+		
+		return score;
+	}
 	
 	
 

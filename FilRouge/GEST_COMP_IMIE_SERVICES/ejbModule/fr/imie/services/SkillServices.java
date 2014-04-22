@@ -9,6 +9,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import fr.imie.Iservices.ISkillServices;
 import fr.imie.entity.Skill;
 
 @Stateless(name = "ServicesSkills")

@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import fr.imie.Iservices.IUserServices;
 import fr.imie.entity.Skill;
 import fr.imie.entity.User;
 import fr.imie.entity.Year;

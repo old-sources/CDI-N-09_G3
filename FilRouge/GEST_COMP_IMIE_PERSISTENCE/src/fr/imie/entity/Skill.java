@@ -137,4 +137,33 @@ public class Skill implements Serializable {
 		this.suggestUser = suggestUser;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((competenceId == null) ? 0 : competenceId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Skill other = (Skill) obj;
+		if (competenceId == null) {
+			if (other.competenceId != null)
+				return false;
+		} else if (!competenceId.equals(other.competenceId))
+			return false;
+		return true;
+	}
+
+	
 }
