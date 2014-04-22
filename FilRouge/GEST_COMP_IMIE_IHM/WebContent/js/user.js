@@ -165,7 +165,7 @@ var thisUser = {
             url: "userFormUpdate.php",
             success: function(msg)
             {
-                $('body').append('<div id="formUpdateUser" title="Modification de votre profil" style="display:none">'+msg+'</div>')
+                $('body').append('<div id="formUpdateUser" title="Modification de votre profil" style="display:none">'+msg+'</div>');
                 $("#formUpdateUser").dialog({
                     autoOpen: true,
                     show: {effect: "blind", duration: 1000 }, 

@@ -69,4 +69,4 @@ var myProject = {
 		    menubar: false
 		});
 	}
-}
+};

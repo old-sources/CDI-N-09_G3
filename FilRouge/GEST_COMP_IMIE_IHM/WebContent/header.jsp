@@ -5,7 +5,8 @@
 		<title>Informations personnelles</title>
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-<!--	<base href=""/>
+		<base href="http://localhost:8080/GEST_COMP_IMIE_IHM/">
+<!--	
 		<link rel="icon" type="image/png" href="favicon.png">
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">		
 		<link rel="apple-touch-icon" href="icon.png" />
@@ -22,7 +23,7 @@
 			var idYear = 2;
 		</script>
 
-
+		
 		<link type="text/css" rel="stylesheet" href="./css/style.css" />
 		<link type="text/css" rel="stylesheet" href="./css/jquery-ui.min.css" />
 		<link rel="stylesheet" href="./css/jqtree.css">

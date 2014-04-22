@@ -6,7 +6,7 @@ var tabProject = {
 		//fonction qui va chercher tous les projets en agax (JSON) puis les affiche
 		/*$.ajax({
 			type: "GET",
-			url: "project/",
+			url: "projects/",
 			dataType: "JSON",
 			success: function(json)
 			{
@@ -43,8 +43,8 @@ var tabProject = {
 			}			
 			$("#divCreateProject").dialog({
                     autoOpen: true,
-                    show: {effect: "blind", duration: 1000 }, 
-                    hide: {effect: "explode", duration: 1000 },
+                    show: {effect: "blind", duration: 1000}, 
+                    hide: {effect: "explode", duration: 1000},
                     modal: true,
                     height: 800,
                     width: 800,
@@ -125,7 +125,7 @@ var tabProject = {
 	updateProjet : function(ind,e){
 		this.tab[ind] = e;
 	},
-	delete : function(e){
+	remove : function(e){
 		var idProjectDelete = e;
 		$( "#dialog-confirm" ).dialog({
 			resizable: false,
@@ -143,7 +143,7 @@ var tabProject = {
 					}
 					tabProject.tab = tabTempt;
 					tabProject.displayProject();
-					/*$.ajax({
+					$.ajax({
 						type: "DELETE",
 						url: "project/"+idProjectDelete,
 						success: function()
@@ -153,7 +153,7 @@ var tabProject = {
 						error: function(){
 			                noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
 			            } 
-					});*/
+					});
 				},
 				"Annuler": function() {
 					$( this ).dialog( "close" );
@@ -161,7 +161,7 @@ var tabProject = {
 			}
 		});
 	},
-	getName : function(ind){return this.tab[ind].name},
+	getName : function(ind){return this.tab[ind].name;},
 	displayProject : function(){
 		//affichage des projets dans le tableau suivant les criteres de recherche
 
@@ -215,14 +215,14 @@ var tabProject = {
 				$('#displayProjectTemp'+this.tab[key].id).append($('<td>').text(this.tab[key].statusName));
 				$('#displayProjectTemp'+this.tab[key].id).append($('<td class="tdAction">').html('<img src="img/zoom.png" style="width:20px" class="cursorPointer projectModal" title="Visualiser ce projet" data-ind="'+key+'"><img src="img/add.png" class="cursorPointer projectAddMe" title="Candidater à ce projet" data-id="'+this.tab[key].id+'" style="width:20px"><img src="img/update.png" style="width:20px" class="cursorPointer UpdateProject" data-id="'+this.tab[key].id+'" title="Gérer ce projet" ><img src="img/close.png" style="width:20px" class="cursorPointer deleteProject" data-id="'+this.tab[key].id+'" title="Supprimer ce projet" >'));
 
-				$('.projectModal').click(function(){tabProject.projectModal($(this).attr('data-ind'))});
-				$('.projectAddMe').click(function(){tabProject.projectAddMe($(this).attr('data-id'),$(this).attr('data-name'))});
+				$('.projectModal').click(function(){tabProject.projectModal($(this).attr('data-ind'));});
+				$('.projectAddMe').click(function(){tabProject.projectAddMe($(this).attr('data-id'),$(this).attr('data-name'));});
 				
 				//$(".UpdateProject").click(function(){location.href='project/'+$(this).attr('data-id')});
-				$(".UpdateProject").click(function(){location.href='project.php?id='+$(this).attr('data-id')});
+				$(".UpdateProject").click(function(){location.href='project.php?id='+$(this).attr('data-id');});
 
 				$(".deleteProject").click(function(){
-					tabProject.delete($(this).attr('data-id'));
+					tabProject.remove($(this).attr('data-id'));
 				});
 			}
 		}
@@ -230,41 +230,10 @@ var tabProject = {
 	projectModal : function(ind){
 		$.ajax({
 			type: "GET",
-			url: 'projectModalDisplay.php',
-			success: function(msg)
-			{	
-				$('body').append('<div id="projectModalDisplay" style="display:none">'+msg+'</div>')
-				$('#projectModalDisplay').dialog({
-				    autoOpen: true,
-				    show: {
-				    effect: "blind", duration: 1000 }, 
-				    hide: {effect: "explode", duration: 1000 },
-				    modal: true,
-				    height: 400,
-					width: 600
-				});
-
-				myProject = new project(tabProject.tab[ind]);
-				$("#modalProjectName").text(myProject.name);
-				$("#modalProjectStatus").text(myProject.status);
-				$("#modalProjectProgress").text(myProject.progress);
-				$("#modalProjectprojectManagerName").text(myProject.projectManagerName);
-				$("#modalProjectDescription").text(myProject.description);
-
-				$('#projectModalDisplay').on( "dialogclose", function() {
-					$('#projectModalDisplay').remove();
-				} );
-			},
-			error: function(){
-	            noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
-	        } 
-		});
-		/*$.ajax({
-			type: "GET",
 			url: 'project/modale/',
 			success: function(msg)
 			{	
-				$('body').append('<div id="projectModalDisplay" style="display:none">'+msg+'</div>')
+				$('body').append('<div id="projectModalDisplay" style="display:none">'+msg+'</div>');
 				$('#projectModalDisplay').dialog({
 				    autoOpen: true,
 				    show: {effect: "blind", duration: 1000 }, 
@@ -286,11 +255,11 @@ var tabProject = {
 			error: function(){
 	            noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
 	        } 
-		});*/
+		});
 	},
 	projectAddMe : function(id,name){
 		msg = 'Souhaitez-vous vous inviter au projet '+name;
-		$('body').append('<div id="projectAddMe" style="display:none">'+msg+'</div>')
+		$('body').append('<div id="projectAddMe" style="display:none">'+msg+'</div>');
 		$( "#projectAddMe").dialog({
 			show: {effect: "blind", duration: 1000 }, 
 			hide: {effect: "explode", duration: 1000 },
@@ -302,11 +271,10 @@ var tabProject = {
 					$.ajax({
 					   type: "POST",
 					   url: "project/candidate/"+id,
-					   success: function(msg){
+					   success: function(){
 					      noty({timeout: 3000,text: "L'invitation a été envoyée",type: 'success'});
-					      //voir pour mettre à jour les notifications
 					   },
-					   error: function(msg){
+					   error: function(){
 				            noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
 				       },
 					});
@@ -328,23 +296,34 @@ var tabProject = {
 var tabUser = {
 	tab:[],
 	init : function(){
-		this.tab=[
-			{id:1,firstName:'gérard',lastName:'bouchard',yearName:'CDI09',active:true},
-			{id:2,firstName:'michel',lastName:'bouchard1',yearName:'IT Start 03',active:false},
-			{id:4,firstName:'romain',lastName:'petiot',yearName:'CDPN 06',active:true},
-			{id:3,firstName:'jean-luc',lastName:'bouchard2',yearName:'CDI09',active:false}];
+		$.ajax({
+			type: "GET",
+			url: "user/json/all",
+			dataType: "JSON",
+			success: function(json)
+			{
+				for(var i in json)
+				{
+					tabUser.tab.push(new user(json[i]));
+				}
 
-			$('#selectDashboardUserYearName').val("CDI09");
-			$('#inputDashboardUserActive').prop('checked', true);
-			this.displayUser();
-			$('.searchUserText').keyup(function(){tabUser.displayUser();});
-			$('.searchUserSelect').change(function(){tabUser.displayUser();});
-			$('#inputDashboardUserActive').click(function(){tabUser.displayUser();});
+				$('#selectDashboardUserYearName').val("CDI09");
+				$('#inputDashboardUserActive').prop('checked', true);
+				
+				$('.searchUserText').keyup(function(){tabUser.displayUser();});
+				$('.searchUserSelect').change(function(){tabUser.displayUser();});
+				$('#inputDashboardUserActive').click(function(){tabUser.displayUser();});
+				tabUser.displayUser();
+			},
+			error: function(){
+	            noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
+	        } 
+		});
 	},
 	addUser:function(e){
 		this.tab.push(e);
 	},
-	delete : function(e){
+	remove : function(e){
 		var idUserDelete = e;
 		$( "#dialog-confirm" ).dialog({
 			resizable: false,
@@ -362,7 +341,7 @@ var tabUser = {
 					}
 					tabUser.tab = tabTempt;
 					tabUser.displayUser();
-					/*$.ajax({
+					$.ajax({
 						type: "DELETE",
 						url: "user/"+idUserDelete,
 						success: function()
@@ -372,7 +351,7 @@ var tabUser = {
 						error: function(){
 			                noty({timeout: 3000,text: "Un problème est apparu, l'action n'a pas été sauvegardée",type: 'error'});
 			            } 
-					});*/
+					});
 				},
 				"Annuler": function() {
 					$( this ).dialog( "close" );
@@ -382,9 +361,9 @@ var tabUser = {
 	},
 	displayUser : function(){
 		$(".displayUserTemp").remove();
-		for (key in this.tab) {
+		for (key in tabUser.tab) {
 			var bool = true;
-			var s=this.tab[key].firstName.toLowerCase();
+			var s=tabUser.tab[key].firstName.toLowerCase();
 			if($('#inputDashboardUserFirstName').val() != '')
 			{
 				if(s.indexOf($('#inputDashboardUserFirstName').val().toLowerCase()) == -1)
@@ -392,7 +371,7 @@ var tabUser = {
 					bool = false;
 				}	
 			}
-			var s=this.tab[key].lastName.toLowerCase();
+			var s=tabUser.tab[key].lastName.toLowerCase();
 			if($('#inputDashboardUserLastName').val() != '')
 			{
 				if(s.indexOf($('#inputDashboardUserLastName').val().toLowerCase()) == -1)
@@ -400,7 +379,7 @@ var tabUser = {
 					bool = false;
 				}	
 			}
-			var s=this.tab[key].yearName;
+			var s=tabUser.tab[key].yearName;
 			if($('#selectDashboardUserYearName').val() != '')
 			{
 				if(s.indexOf($('#selectDashboardUserYearName').val()) == -1)
@@ -410,58 +389,39 @@ var tabUser = {
 			}
 			if($('#inputDashboardUserActive').is(':checked'))
 			{
-				if(this.tab[key].active == false)
+				if(tabUser.tab[key].availability == false)
 				{
 					bool = false;
 				}	
 			}
 			if(bool)
 			{
-				$("#dashboardUser").append('<tr class="displayUserTemp" id="displayUserTemp'+this.tab[key].id+'">');
-				$('#displayUserTemp'+this.tab[key].id).append($('<td>').text(this.tab[key].firstName));
-				$('#displayUserTemp'+this.tab[key].id).append($('<td>').text(this.tab[key].lastName));
-				$('#displayUserTemp'+this.tab[key].id).append($('<td>').text(this.tab[key].yearName));
-				if(this.tab[key].active)
+				$("#dashboardUser").append('<tr class="displayUserTemp" id="displayUserTemp'+tabUser.tab[key].id+'">');
+				$('#displayUserTemp'+tabUser.tab[key].id).append($('<td>').text(tabUser.tab[key].firstName));
+				$('#displayUserTemp'+tabUser.tab[key].id).append($('<td>').text(tabUser.tab[key].lastName));
+				$('#displayUserTemp'+tabUser.tab[key].id).append($('<td>').text(tabUser.tab[key].yearName));
+				if(tabUser.tab[key].availability)
 				{
-					$('#displayUserTemp'+this.tab[key].id).append($('<td style="text-align:center">').html('<img src="img/approve.png" width="15px" class="">'));	
+					$('#displayUserTemp'+tabUser.tab[key].id).append($('<td style="text-align:center">').html('<img src="img/approve.png" width="15px" class="">'));	
 				}
 				else
 				{
-					$('#displayUserTemp'+this.tab[key].id).append($('<td>').text(''));	
+					$('#displayUserTemp'+tabUser.tab[key].id).append($('<td>').text(''));	
 				}
-				$('#displayUserTemp'+this.tab[key].id).append($('<td style="text-align:center" class="tdAction">').html('<img src="img/zoom.png" class="cursorPointer userModalDisplay" style="width:20px" title="Visualiser cet utilisateur" data-ind="'+key+'"><img src="img/update.png" style="width:20px" class="cursorPointer UpdateUser" data-id="'+this.tab[key].id+'" title="" ><img src="img/close.png" style="width:20px" class="cursorPointer deleteUser" data-id="'+this.tab[key].id+'" title="Supprimer cet utilisateur" >'));
+				$('#displayUserTemp'+tabUser.tab[key].id).append($('<td style="text-align:center" class="tdAction">').html('<img src="img/zoom.png" class="cursorPointer userModalDisplay" style="width:20px" title="Visualiser cet utilisateur" data-ind="'+key+'"><img src="img/update.png" style="width:20px" class="cursorPointer UpdateUser" data-id="'+this.tab[key].id+'" title="" ><img src="img/close.png" style="width:20px" class="cursorPointer deleteUser" data-id="'+this.tab[key].id+'" title="Supprimer cet utilisateur" >'));
 				
-				$('.userModalDisplay').click(function(){tabUser.userModalDisplay($(this).attr('data-ind'))});
-				//$('.UpdateUser').click(function(){location.href='/user/'+$(this).attr('data-ind')});
-				$('.UpdateUser').click(function(){location.href='user.php?id='+$(this).attr('data-id')});
+				$('.userModalDisplay').click(function(){tabUser.userModalDisplay($(this).attr('data-ind'));});
+				$('.UpdateUser').click(function(){location.href='./user/'+$(this).attr('data-id');});
 				$(".deleteUser").click(function(){
-					tabUser.delete($(this).attr('data-id'));
+					tabUser.remove($(this).attr('data-id'));
 				});
 			}
 		}
 	},
 	userModalDisplay : function(ind)
 	{
+		
 		$.ajax({
-			type: "GET",
-			url: "userModalDisplay.php",
-			success: function(msg)
-			{
-				$('body').append('<div id="userModalDisplay" style="display:none">'+msg+'</div>')
-				$("#userModalDisplay").dialog({
-				    autoOpen: true,
-				    show: {effect: "blind", duration: 1000 }, 
-				    hide: {effect: "explode", duration: 1000 },
-				    modal: true,
-				    height: 400,
-					width: 600
-				});
-				$('#userModalDisplay').on( "dialogclose", function() {
-					$("#userModalDisplay").remove();
-				} );
-			}
-		});
-		/*$.ajax({
 			type: "GET",
 			url: "user/modale/",
 			success: function(msg)
@@ -481,6 +441,6 @@ var tabUser = {
 
 				//mettre les infos depuis tabUser.tab[ind].
 			}
-		});*/
+		});
 	}
-}
+};

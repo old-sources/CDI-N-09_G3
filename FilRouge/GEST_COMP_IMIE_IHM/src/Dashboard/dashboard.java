@@ -33,7 +33,6 @@ public class dashboard extends HttpServlet {
 		ServletContext context= request.getSession().getServletContext();
 		RequestDispatcher rd= context.getRequestDispatcher("/dashboard.jsp");
 		rd.include(request, response);
-		
 	}
 
 	/**

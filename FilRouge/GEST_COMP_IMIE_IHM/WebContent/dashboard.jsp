@@ -78,7 +78,7 @@
 		<div class="stopFloat">
 		</div>
 	</section>
-	<script type="text/javascript" src="js/dashboardProject.js"></script>
+	<script type="text/javascript" src="./js/dashboardProject.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			tabProject.init();

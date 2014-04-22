@@ -3,63 +3,56 @@ package user;
 public class User
 {
 	private String firstName,lastName,mail,yearName,availabilityName;
-	private Integer year,availability;
-	
-	public String getFirstName()
-	{
+	private Integer year,id;
+	private boolean availability;
+	public String getFirstName() {
 		return firstName;
 	}
-	public void setFirstName(String firstName)
-	{
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	public String getLastName()
-	{
+	public String getLastName() {
 		return lastName;
 	}
-	public void setLastName(String lastName)
-	{
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getMail()
-	{
+	public String getMail() {
 		return mail;
 	}
-	public void setMail(String mail)
-	{
+	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public String getYearName()
-	{
+	public String getYearName() {
 		return yearName;
 	}
-	public void setYearName(String yearName)
-	{
+	public void setYearName(String yearName) {
 		this.yearName = yearName;
 	}
-	public String getAvailabilityName()
-	{
+	public String getAvailabilityName() {
 		return availabilityName;
 	}
-	public void setAvailabilityName(String availabilityName)
-	{
+	public void setAvailabilityName(String availabilityName) {
 		this.availabilityName = availabilityName;
 	}
-	public Integer getYear()
-	{
+	public Integer getYear() {
 		return year;
 	}
-	public void setYear(Integer year)
-	{
+	public void setYear(Integer year) {
 		this.year = year;
 	}
-	public Integer getAvailability()
-	{
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public boolean isAvailability() {
 		return availability;
 	}
-	public void setAvailability(Integer availability)
-	{
+	public void setAvailability(boolean availability) {
 		this.availability = availability;
 	}
+	
 	
 }

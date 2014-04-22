@@ -11,7 +11,7 @@
 	</div>
 	<section id="content">
 		<section id="arianne">
-			<img src="img/flag.png" class="arianne_flag"> <a href="dashboard.php">Accueil</a> <img src="img/right.png" class="arianne_arrow"> <a>Informations personnelles</a>
+			<img src="./img/flag.png" class="arianne_flag"> <a href="dashboard.php">Accueil</a> <img src="img/right.png" class="arianne_arrow"> <a>Informations personnelles</a>
 		</section>
 		<div id="title">
 			<h1>Modification de vos informations personnelles</h1>
@@ -53,7 +53,7 @@
 		<div class="stopFloat">
 		</div>
 	</section>
-<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
 <script type="text/javascript">
 	thisUser.init();
 </script>
