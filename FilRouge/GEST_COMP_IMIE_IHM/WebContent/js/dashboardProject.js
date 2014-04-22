@@ -125,7 +125,7 @@ var tabProject = {
 	updateProjet : function(ind,e){
 		this.tab[ind] = e;
 	},
-	delete : function(e){
+	remove : function(e){
 		var idProjectDelete = e;
 		$( "#dialog-confirm" ).dialog({
 			resizable: false,
@@ -222,7 +222,7 @@ var tabProject = {
 				$(".UpdateProject").click(function(){location.href='project.php?id='+$(this).attr('data-id')});
 
 				$(".deleteProject").click(function(){
-					tabProject.delete($(this).attr('data-id'));
+					tabProject.remove($(this).attr('data-id'));
 				});
 			}
 		}
@@ -344,7 +344,7 @@ var tabUser = {
 	addUser:function(e){
 		this.tab.push(e);
 	},
-	delete : function(e){
+	remove : function(e){
 		var idUserDelete = e;
 		$( "#dialog-confirm" ).dialog({
 			resizable: false,
@@ -433,9 +433,9 @@ var tabUser = {
 				
 				$('.userModalDisplay').click(function(){tabUser.userModalDisplay($(this).attr('data-ind'))});
 				//$('.UpdateUser').click(function(){location.href='/user/'+$(this).attr('data-ind')});
-				$('.UpdateUser').click(function(){location.href='user.php?id='+$(this).attr('data-id')});
+				$('.UpdateUser').click(function(){location.href='user/'+$(this).attr('data-id')});
 				$(".deleteUser").click(function(){
-					tabUser.delete($(this).attr('data-id'));
+					tabUser.remove($(this).attr('data-id'));
 				});
 			}
 		}
