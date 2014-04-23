@@ -3,7 +3,6 @@
 	<name>GEST_COMP_IMIE_SERVICES</name>
 	<comment></comment>
 	<projects>
-		<project>GEST_COMP_IMIE_PERSISTENCE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

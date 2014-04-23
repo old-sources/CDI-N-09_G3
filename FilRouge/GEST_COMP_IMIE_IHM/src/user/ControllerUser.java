@@ -36,7 +36,7 @@ public class ControllerUser extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+		System.out.println(request.getContentType());
 		
 		Pattern pattern = Pattern.compile("user/json/*");
 		Matcher matcher = pattern.matcher(request.getRequestURL());
@@ -53,9 +53,9 @@ public class ControllerUser extends HttpServlet {
 			Matcher matcher1 = pattern1.matcher(request.getRequestURL());
 			if (matcher1.find()) {
 				response.setContentType("application/json; charset=UTF-8");
-				ArrayList<User> users = new ArrayList<User>();
+				ArrayList<UserIHMTemp> users = new ArrayList<UserIHMTemp>();
 				
-				User a = new User();
+				UserIHMTemp a = new UserIHMTemp();
 				a.setId(1);
 				a.setFirstName("BouchardAll");
 				a.setLastName("gérard");
@@ -65,7 +65,7 @@ public class ControllerUser extends HttpServlet {
 				a.setAvailability(true);
 				users.add(a);
 				
-				User a1 = new User();
+				UserIHMTemp a1 = new UserIHMTemp();
 				a1.setId(2);
 				a1.setFirstName("Bouchard");
 				a1.setLastName("michel");
@@ -75,7 +75,7 @@ public class ControllerUser extends HttpServlet {
 				a1.setAvailability(false);
 				users.add(a1);
 				
-				User a11 = new User();
+				UserIHMTemp a11 = new UserIHMTemp();
 				a11.setId(3);
 				a11.setFirstName("Petiot");
 				a11.setLastName("romain");
@@ -85,7 +85,7 @@ public class ControllerUser extends HttpServlet {
 				a11.setAvailability(true);
 				users.add(a11);
 				
-				User a111 = new User();
+				UserIHMTemp a111 = new UserIHMTemp();
 				a111.setId(4);
 				a111.setFirstName("bouchard2");
 				a111.setLastName("jean-luc");
@@ -110,7 +110,7 @@ public class ControllerUser extends HttpServlet {
 				response.setContentType("application/json; charset=UTF-8");
 				PrintWriter writer = response.getWriter();
 				Gson gson = new Gson();
-				User a = new User();
+				UserIHMTemp a = new UserIHMTemp();
 				a.setFirstName("Bouchard");
 				a.setLastName("gérard");
 				a.setMail("gerard@bouchard.com");
@@ -141,7 +141,7 @@ public class ControllerUser extends HttpServlet {
 			response.setContentType("application/json; charset=UTF-8");
 			PrintWriter writer = response.getWriter();
 			Gson gson = new Gson();
-			User a = new User();
+			UserIHMTemp a = new UserIHMTemp();
 			a.setFirstName("Bouchard");
 			a.setLastName("gérard");
 			a.setMail("gerard@bouchard.com");
