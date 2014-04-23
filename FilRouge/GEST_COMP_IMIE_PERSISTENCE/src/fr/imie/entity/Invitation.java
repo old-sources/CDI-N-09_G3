@@ -26,7 +26,7 @@ public class Invitation implements Serializable {
 
 	@Id
 	@Column(name="est_invite_id")
-	public Integer getInvitedId() {
+	public Integer getInvitationId() {
 		return this.invitationId;
 	}
 

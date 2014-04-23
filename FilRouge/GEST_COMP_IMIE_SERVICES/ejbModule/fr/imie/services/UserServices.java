@@ -47,7 +47,7 @@ public class UserServices implements IUserServices {
 			insertedUser.setPassword(user.getPassword());
 		}
 		if(user.getYear()!=null){
-			insertedUser.setYearName(user.getYear());
+			insertedUser.setYear(user.getYear());
 		}
 		entityManager.persist(insertedUser);
 		return insertedUser;

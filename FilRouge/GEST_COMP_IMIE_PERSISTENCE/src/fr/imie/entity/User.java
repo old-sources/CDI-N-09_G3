@@ -142,6 +142,11 @@ public class User implements Serializable {
 			return this.evaluatedSkills;
 		}
 		
+		public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
+			this.evaluatedSkills=evaluatedSkills;
+			
+		}
+		
 	public void setProtectedData(Boolean protectedData) {
 		this.protectedData = protectedData;
 	}
@@ -164,8 +169,8 @@ public class User implements Serializable {
 			return this.year;
 		}
 
-		public void setYearName(Year yearName) {
-			this.year= yearName;
+		public void setYear(Year year) {
+			this.year= year;
 		}
 	
 	public User() {
