@@ -1,4 +1,4 @@
-package fr.imie.entity;
+package fr.imie.entity.projects;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -9,7 +9,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="statut")
+@Table(name="statut",
+schema="gestioncomp")
 public class Status implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer statusId;

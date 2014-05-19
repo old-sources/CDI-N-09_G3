@@ -1,5 +1,6 @@
 package fr.imie.services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,31 +10,35 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import fr.imie.Iservices.IUserServices;
-import fr.imie.entity.Skill;
-import fr.imie.entity.User;
-import fr.imie.entity.Year;
+import fr.imie.entity.projects.Status;
+import fr.imie.entity.users.EvaluatedUser;
+import fr.imie.entity.users.Rights;
+import fr.imie.entity.users.SearchBySkillResult;
+import fr.imie.entity.users.User;
+import fr.imie.entity.users.Year;
 
 @Stateless(name = "ServicesUtilisateurs")
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserServices implements IUserServices {
 
-	@PersistenceContext
+	@PersistenceContext(unitName="GEST_COMP_IMIE")
 	private EntityManager entityManager;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public UserServices() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public User insertUser(User user) {
 		User insertedUser = new User();
@@ -62,38 +67,38 @@ public class UserServices implements IUserServices {
 
 	@Override
 	public List<User> listUser() {
-		User user = new User();
-		@SuppressWarnings("unchecked")
-		List<User> listUsers = (List<User>)entityManager.find(User.class, user);
-		return listUsers;
-	}
-	
-	@Override
-	public List<User> searchUserBySkill(List<Skill> listSkills) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<User> Query=entityManager.createNamedQuery("findAllUsers",User.class);
+		List<User> result=Query.getResultList();
+		return result;
 	}
 
+	
+	
 	@Override
 	public User updateUser(User userToUpdate) {
-		entityManager.merge(userToUpdate);
+		if (userToUpdate!=null){
+			entityManager.merge(userToUpdate);
+		}
 		return userToUpdate;
 	}
 
 	@Override
 	public void deleteUser(User user) {
-		User userToRemove = entityManager.find(User.class, user.getUserId());
-		entityManager.remove(userToRemove);
+		if(user!=null){
+			User userToRemove = entityManager.find(User.class, user.getUserId());
+			entityManager.remove(userToRemove);
+		}
+		
 	}
 
 	@Override
 	public User verifyAuthUser(User user) {
 		if ((user.getLastName() == null || user.getLastName().isEmpty())
 				|| (user.getPassword() == null || user.getPassword()
-						.isEmpty())) {
+				.isEmpty())) {
 			//throw new ServiceException("la personne Ã  authentifier doit renseigner son nom et son passw");
 		}
-		
+
 		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
 
 		CriteriaQuery<User> query = qb.createQuery(User.class);
@@ -109,11 +114,11 @@ public class UserServices implements IUserServices {
 		query.where(criteria.toArray(new Predicate[] {}));
 
 		List<User> result = entityManager.createQuery(query).getResultList();
-				
+
 		User perso =null;
 		if (result != null){
 			perso = result.get(0);
-		
+
 		}
 		return perso;
 	}
@@ -145,18 +150,90 @@ public class UserServices implements IUserServices {
 	}
 
 	@Override
-	public Year updateYearName(Year yearToUpdate) {
+	public Year updateYear(Year yearToUpdate) {
+		entityManager.merge(yearToUpdate);
+		return yearToUpdate;
+	}
+
+	@Override
+	public void deleteYearName(Year year) {
+		Year yearToRemove = entityManager.find(Year.class, year.getYearId());
+		entityManager.remove(yearToRemove);
+
+	}
+	
+	//renvoie un objet SearchBySkillResult composé d'un user d'une liste de 
+	//EvaluatedUser et une liste de Skills
+	@Override
+	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
+		List<User> users = listUser();
+		List<EvaluatedUser> foundUsers=new ArrayList<EvaluatedUser>();
+		for(User user:users){
+			if((user.getAvaibility()==true)&&(user.scoreWithSkills(res.getSearchedSkills())>0)){
+				EvaluatedUser evuser =new EvaluatedUser();
+				evuser.setUser(user);
+				evuser.setLevel(user.scoreWithSkills(res.getSearchedSkills()));
+				foundUsers.add(evuser);
+			}
+		}
+		res.setFoundUsers(foundUsers);
+		return res;
+	}
+
+	@Override
+	public void Importer(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Status insertStatus(Year year) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteYearName(Year year) {
-		entityManager.remove(year);
-
+	public List<Status> searchStatus(Status year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	
+	@Override
+	public Status updateStatus(Status statusToUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	
+	@Override
+	public void deleteStatus(Status status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Rights insertRights(Rights rights) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Rights> searchRights(Rights rights) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Rights updateRights(Rights rightsToUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteRights(Rights rights) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 }

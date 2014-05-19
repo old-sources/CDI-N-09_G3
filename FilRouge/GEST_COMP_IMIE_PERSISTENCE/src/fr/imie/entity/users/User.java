@@ -1,4 +1,4 @@
-package fr.imie.entity;
+package fr.imie.entity.users;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,15 +10,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import fr.imie.entity.skills.EvaluatedSkill;
+import fr.imie.entity.skills.Skill;
 
 /**
  * The persistent class for the utilisateur database table.
  * 
  */
 @Entity
-@Table(name="utilisateur")
+@Table(name="utilisateur",
+schema="gestioncomp")
+@NamedQuery(name="findAllUsers",
+query="Select u from User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer userId;
@@ -33,7 +40,7 @@ public class User implements Serializable {
 	private Rights rights;
 	private Year year;
 	private List<EvaluatedSkill> evaluatedSkills;
-	
+
 	@Id
 	@Column(name="utilisateur_id")
 	public Integer getUserId() {
@@ -74,7 +81,7 @@ public class User implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@Basic
 	@Column(name="dispo")
 	public Boolean getAvaibility() {
@@ -92,7 +99,7 @@ public class User implements Serializable {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	
+
 	@Column(name="mail")
 	public String getMail() {
 		return mail;
@@ -100,7 +107,7 @@ public class User implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	
+
 	@Basic
 	@Column(name="mdp")
 	public String getPassword() {
@@ -137,54 +144,63 @@ public class User implements Serializable {
 	}
 
 	//bi-directional many-to-one association to evaluatedSkills
-		@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
-		public List<EvaluatedSkill> getEvaluatedSkills(){
-			return this.evaluatedSkills;
-		}
-		
-		public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
-			this.evaluatedSkills=evaluatedSkills;
-			
-		}
-		
+	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
+	public List<EvaluatedSkill> getEvaluatedSkills(){
+		return this.evaluatedSkills;
+	}
+
+	public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
+		this.evaluatedSkills=evaluatedSkills;
+
+	}
+
 	public void setProtectedData(Boolean protectedData) {
 		this.protectedData = protectedData;
 	}
-	
+
 	//uni-directional many-to-one association to Rights
-		@ManyToOne
-		@JoinColumn(name="droits_id")
-		public Rights getRights() {
-			return this.rights;
-		}
+	@ManyToOne
+	@JoinColumn(name="droits_id")
+	public Rights getRights() {
+		return this.rights;
+	}
 
-		public void setRights(Rights rights) {
-			this.rights = rights;
-		}
+	public void setRights(Rights rights) {
+		this.rights = rights;
+	}
 
-		//uni-directional many-to-one association to YearName
-		@ManyToOne
-		@JoinColumn(name="promotion_id")
-		public Year getYear() {
-			return this.year;
-		}
+	//uni-directional many-to-one association to YearName
+	@ManyToOne
+	@JoinColumn(name="promotion_id")
+	public Year getYear() {
+		return this.year;
+	}
 
-		public void setYear(Year year) {
-			this.year= year;
-		}
-	
+	public void setYear(Year year) {
+		this.year= year;
+	}
+
 	public User() {
 	}
-
-	public Integer scoreWithSkills( List<Skill> skills){
+	
+	// calcul du niveau de l'étudiant pour une liste de compétences passées en paramètre.
+	public Integer scoreWithSkills( List<Skill> set){
 		Integer score=0;
-		
+		for(EvaluatedSkill evSkill:evaluatedSkills){
+			for (Skill s:set){
+				if(s.equals(evSkill)){
+					score+=evSkill.getLevel();
+					break;
+				}
+			}
+
+		}
 		return score;
 	}
-	
-	
 
 
-	
+
+
+
 
 }

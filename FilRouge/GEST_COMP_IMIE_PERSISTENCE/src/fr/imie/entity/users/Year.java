@@ -1,4 +1,4 @@
-package fr.imie.entity;
+package fr.imie.entity.users;
 
 import java.io.Serializable;
 
@@ -14,7 +14,8 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="promotion")
+@Table(name="promotion",
+schema="gestioncomp")
 public class Year implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer yearId;

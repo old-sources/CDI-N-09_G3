@@ -1,8 +1,20 @@
-package fr.imie.entity;
+package fr.imie.entity.projects;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import fr.imie.entity.users.User;
 
 
 /**
@@ -10,7 +22,8 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="projet")
+@Table(name="projet",
+schema="gestioncomp")
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
@@ -42,7 +55,7 @@ public class Project implements Serializable {
 	}
 
 	public void setProgress(Integer avancement) {
-		this.progress = avancement;
+		if(avancement>0&&avancement<=5)	this.progress = avancement;
 	}
 
 	@Column(name="nom")
@@ -54,7 +67,7 @@ public class Project implements Serializable {
 		this.name = nom;
 	}
 
-
+	@Lob
 	@Column(name="wiki_cdp")
 	public String getWikiManager() {
 		return this.wikiManager;
@@ -64,7 +77,7 @@ public class Project implements Serializable {
 		this.wikiManager = wikiCdp;
 	}
 
-
+	@Lob
 	@Column(name="wiki_groupe")
 	public String getWikiMembers() {
 		return this.wikiMembers;
@@ -143,6 +156,16 @@ public class Project implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+
+	public void addMember(User userToIntegrate) {
+		List<User> users=new ArrayList<User>();
+		if (userToIntegrate!=null){
+			users.add(userToIntegrate);
+			setMembers(users);
+		}
+		
 	}
 
 }

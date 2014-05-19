@@ -1,4 +1,4 @@
-package fr.imie.entity;
+package fr.imie.entity.skills;
 
 import java.io.Serializable;
 
@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import fr.imie.entity.users.User;
 
 
 /**
@@ -16,7 +19,10 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="posseder")
+@Table(name="posseder",
+schema="gestioncomp")
+@NamedQuery(name="EvSkillsListUser",
+query="Select ek from EvaluatedSkill ek where ek.evaluatedSkillId=(:id)")
 public class EvaluatedSkill implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer evaluatedSkillId;
@@ -30,7 +36,7 @@ public class EvaluatedSkill implements Serializable {
 
 	@Id
 	@Column(name="posseder_id")
-	public Integer getevaluatedSkillId() {
+	public Integer getEvaluatedSkillId() {
 		return this.evaluatedSkillId;
 	}
 
@@ -40,12 +46,18 @@ public class EvaluatedSkill implements Serializable {
 
 	@Basic
 	@Column(name="niveau")
-	public Integer getLevel() {
+	public int getLevel() {
 		return this.level;
 	}
-
+	
+	public void setBossLevel(Integer niveau) {
+		
+		if(niveau>this.level&&niveau<=5)this.level = niveau;
+	}
+	
 	public void setLevel(Integer niveau) {
-		this.level = niveau;
+		
+		if(niveau>0&&niveau<=5)this.level = niveau;
 	}
 
 

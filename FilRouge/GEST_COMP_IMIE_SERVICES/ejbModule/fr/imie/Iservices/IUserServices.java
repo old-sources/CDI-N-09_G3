@@ -1,12 +1,15 @@
 package fr.imie.Iservices;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ejb.Local;
 
-import fr.imie.entity.Skill;
-import fr.imie.entity.User;
-import fr.imie.entity.Year;
+import fr.imie.entity.projects.Status;
+import fr.imie.entity.users.Rights;
+import fr.imie.entity.users.SearchBySkillResult;
+import fr.imie.entity.users.User;
+import fr.imie.entity.users.Year;
 
 @Local
 public interface IUserServices {
@@ -28,11 +31,8 @@ public interface IUserServices {
 	 */
 	public abstract List<User> listUser();
 	
-	/**
-	 * @param List<Skill> listSkill
-	 * @return List<User>
-	 */
-	public abstract List<User> searchUserBySkill(List<Skill> listSkills);
+	
+	
 
 	/**
 	 * @param userToUpdate
@@ -69,15 +69,57 @@ public interface IUserServices {
 	 * @param YearToUpdate
 	 * @return Year
 	 */
-	public abstract Year updateYearName(Year yearToUpdate);
+	public abstract Year updateYear(Year yearToUpdate);
 
 	/**
 	 * @param Year
 	 */
-	public abstract void deleteYearName(Year yearName);
+	 void deleteYearName(Year year);
+
+	 public abstract SearchBySkillResult SearchUserBySkills(SearchBySkillResult res);
 
 
+	 public abstract void Importer(File file);
+	
+	 public abstract Status insertStatus(Year year);
+		
+		/**
+		 * @param Year
+		 * @return List<Year>
+		 */
+		public abstract List<Status> searchStatus(Status year);
+		
+		/**
+		 * @param YearToUpdate
+		 * @return Year
+		 */
+		public abstract Status updateStatus(Status statusToUpdate);
 
+		/**
+		 * @param Year
+		 */
+		 void deleteStatus(Status status);
+		 
+		 public abstract Rights insertRights(Rights rights);
+			
+			/**
+			 * @param Year
+			 * @return List<Year>
+			 */
+			public abstract List<Rights> searchRights(Rights rights);
+			
+			/**
+			 * @param YearToUpdate
+			 * @return Year
+			 */
+			public abstract Rights updateRights(Rights rightsToUpdate);
+
+			/**
+			 * @param Year
+			 */
+			 void deleteRights(Rights rights);
+		
+		
 
 
 	
