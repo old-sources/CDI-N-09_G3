@@ -77,9 +77,9 @@ public class Skill implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Skill
-	@OneToMany(mappedBy="motherSkill")
-	public List<Skill> getDaughterSkills() {
+//bi-directional many-to-one association to Skill
+@OneToMany(mappedBy="motherSkill")
+public List<Skill> getDaughterSkills() {
 		return this.daughterSkills;
 	}
 

@@ -40,6 +40,7 @@ public class Rights implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
+	@Column(name="libelle")
 	public RightsLabel getRightsLabel() {
 		return this.label;
 	}

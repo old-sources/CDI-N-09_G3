@@ -10,6 +10,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,26 +18,25 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import fr.imie.Iservices.IUserServices;
-import fr.imie.entity.projects.Status;
 import fr.imie.entity.users.EvaluatedUser;
 import fr.imie.entity.users.Rights;
 import fr.imie.entity.users.SearchBySkillResult;
 import fr.imie.entity.users.User;
 import fr.imie.entity.users.Year;
 
-@Stateless(name = "UserServices")
+@Stateless(mappedName = "UserServices")
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserServices implements IUserServices {
 
-	@PersistenceContext(unitName="GEST_COMP_IMIE")
+	@PersistenceContext(unitName="GEST_COMP_IMIEPU")
 	private EntityManager entityManager;
 
 	/**
 	 * Default constructor.
 	 */
 	public UserServices() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
@@ -74,15 +74,23 @@ public class UserServices implements IUserServices {
 	@Override
 	public User searchUserByID(int ID) {
 		User user = new User();
+		
 		user = entityManager.find(User.class, ID);
+	
+		
 		return user;
 	}
 
 	@Override
 	public List<User> listUser() {
-		TypedQuery<User> Query=entityManager.createNamedQuery("findAllUsers",User.class);
-		List<User> result=Query.getResultList();
+			
+		TypedQuery<User> query=entityManager.createNamedQuery("findAllUsers",User.class);
+		
+		List<User> result=query.getResultList();
+		
 		return result;
+		
+		
 	}
 
 
@@ -200,22 +208,22 @@ public class UserServices implements IUserServices {
 	}
 
 	//renvoie un objet SearchBySkillResult compos� d'un user d'une liste de 
-	//EvaluatedUser et une liste de Skills
-	@Override
-	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
-		List<User> users = listUser();
-		List<EvaluatedUser> foundUsers=new ArrayList<EvaluatedUser>();
-		for(User user:users){
-			if((user.getAvaibility()==true)&&(user.scoreWithSkills(res.getSearchedSkills())>0)){
-				EvaluatedUser evuser =new EvaluatedUser();
-				evuser.setUser(user);
-				evuser.setLevel(user.scoreWithSkills(res.getSearchedSkills()));
-				foundUsers.add(evuser);
-			}
-		}
-		res.setFoundUsers(foundUsers);
-		return res;
-	}
+//	//EvaluatedUser et une liste de Skills
+//	@Override
+//	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
+//		List<User> users = listUser();
+//		List<EvaluatedUser> foundUsers=new ArrayList<EvaluatedUser>();
+//		for(User user:users){
+//			if((user.getAvaibility()==true)&&(user.scoreWithSkills(res.getSearchedSkills())>0)){
+//				EvaluatedUser evuser =new EvaluatedUser();
+//				evuser.setUser(user);
+//				evuser.setLevel(user.scoreWithSkills(res.getSearchedSkills()));
+//				foundUsers.add(evuser);
+//			}
+//		}
+//		res.setFoundUsers(foundUsers);
+//		return res;
+//	}
 
 	@Override
 	public void ImportUsers(File file) {

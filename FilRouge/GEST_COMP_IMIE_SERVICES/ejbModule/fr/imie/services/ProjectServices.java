@@ -19,7 +19,7 @@ import fr.imie.entity.users.User;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProjectServices implements IProjectServices{
 
-	@PersistenceContext(unitName="GEST_COMP_IMIE")
+	@PersistenceContext(unitName="GEST_COMP_IMIEPU")
 	private EntityManager entityManager;
 	
 	@Override

@@ -31,7 +31,7 @@ public interface IUserServices {
 	 */
 	public abstract List<User> listUser();
 
-
+	
 
 
 	/**
@@ -72,7 +72,7 @@ public interface IUserServices {
 	 */
 	void deleteYearName(Year year);
 
-	public abstract SearchBySkillResult SearchUserBySkills(SearchBySkillResult res);
+//	public abstract SearchBySkillResult SearchUserBySkills(SearchBySkillResult res);
 
 
 	public abstract void ImportUsers(File file);

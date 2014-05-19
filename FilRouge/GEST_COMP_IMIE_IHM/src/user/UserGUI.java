@@ -1,6 +1,7 @@
 package user;
 
-public class User
+
+public class UserGUI
 {
 	private String firstName,lastName,mail,yearName,availabilityName;
 	private Integer year,id;

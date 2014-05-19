@@ -24,7 +24,7 @@ import fr.imie.entity.users.User;
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class NotificationServices implements INotificationServices {
-	@PersistenceContext(unitName="GEST_COMP_IMIE")
+	@PersistenceContext(unitName="GEST_COMP_IMIEPU")
 	private EntityManager entityManager;
 
 

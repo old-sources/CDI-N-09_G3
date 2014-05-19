@@ -20,7 +20,7 @@ import fr.imie.entity.users.User;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class SkillServices implements ISkillServices {
 
-	@PersistenceContext(unitName="GEST_COMP_IMIE")
+	@PersistenceContext(unitName="GEST_COMP_IMIEPU")
 	private EntityManager entityManager;
 
 	/**

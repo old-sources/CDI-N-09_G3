@@ -3,9 +3,11 @@ package user;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,13 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import fr.imie.entity.users.User;
+import fr.imie.services.UserServices;
+
 /**
  * Servlet implementation class user
  */
 @WebServlet("/user/*")
 public class ControllerUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+     @EJB
+     UserServices userService;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -53,48 +59,54 @@ public class ControllerUser extends HttpServlet {
 			Matcher matcher1 = pattern1.matcher(request.getRequestURL());
 			if (matcher1.find()) {
 				response.setContentType("application/json; charset=UTF-8");
-				ArrayList<UserIHMTemp> users = new ArrayList<UserIHMTemp>();
 				
-				UserIHMTemp a = new UserIHMTemp();
-				a.setId(1);
-				a.setFirstName("BouchardAll");
-				a.setLastName("gérard");
-				a.setMail("gerard@bouchard.com");
-				a.setYear(1);
-				a.setYearName("CDI09");
-				a.setAvailability(true);
-				users.add(a);
 				
-				UserIHMTemp a1 = new UserIHMTemp();
-				a1.setId(2);
-				a1.setFirstName("Bouchard");
-				a1.setLastName("michel");
-				a1.setMail("gerard@bouchard.com");
-				a1.setYear(1);
-				a1.setYearName("IT Start 03");
-				a1.setAvailability(false);
-				users.add(a1);
+				List<User> users = new ArrayList<User>();
 				
-				UserIHMTemp a11 = new UserIHMTemp();
-				a11.setId(3);
-				a11.setFirstName("Petiot");
-				a11.setLastName("romain");
-				a11.setMail("rpetiot@gmail.com");
-				a11.setYear(1);
-				a11.setYearName("CDPN 06");
-				a11.setAvailability(true);
-				users.add(a11);
 				
-				UserIHMTemp a111 = new UserIHMTemp();
-				a111.setId(4);
-				a111.setFirstName("bouchard2");
-				a111.setLastName("jean-luc");
-				a111.setMail("");
-				a111.setYear(1);
-				a111.setYearName("CDI09");
-				a111.setAvailability(false);
-				users.add(a111);
-				
+				users=userService.listUser();
+				System.out.println("taille "+users.size());
+//				ArrayList<UserIHMTemp> users = new ArrayList<UserIHMTemp>();
+//				
+//				UserIHMTemp a = new UserIHMTemp();
+//				a.setId(1);
+//				a.setFirstName("BouchardAll");
+//				a.setLastName("gérard");
+//				a.setMail("gerard@bouchard.com");
+//				a.setYear(1);
+//				a.setYearName("CDI09");
+//				a.setAvailability(true);
+//				users.add(a);
+//				
+//				UserIHMTemp a1 = new UserIHMTemp();
+//				a1.setId(2);
+//				a1.setFirstName("Bouchard");
+//				a1.setLastName("michel");
+//				a1.setMail("gerard@bouchard.com");
+//				a1.setYear(1);
+//				a1.setYearName("IT Start 03");
+//				a1.setAvailability(false);
+//				users.add(a1);
+//				
+//				UserIHMTemp a11 = new UserIHMTemp();
+//				a11.setId(3);
+//				a11.setFirstName("Petiot");
+//				a11.setLastName("romain");
+//				a11.setMail("rpetiot@gmail.com");
+//				a11.setYear(1);
+//				a11.setYearName("CDPN 06");
+//				a11.setAvailability(true);
+//				users.add(a11);
+//				
+//				UserIHMTemp a111 = new UserIHMTemp();
+//				a111.setId(4);
+//				a111.setFirstName("bouchard2");
+//				a111.setLastName("jean-luc");
+//				a111.setMail("");
+//				a111.setYear(1);
+//				a111.setYearName("CDI09");
+//				a111.setAvailability(false);
+//				users.add(a111);
 				
 				PrintWriter writer = response.getWriter();
 				Gson gson = new Gson();

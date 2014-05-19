@@ -19,13 +19,13 @@ import fr.imie.entity.skills.Skill;
 
 /**
  * The persistent class for the utilisateur database table.
- * 
+ * join fetch u.evaluatedSkills"
  */
 @Entity
 @Table(name="utilisateur",
 schema="gestioncomp")
 @NamedQuery(name="findAllUsers",
-query="Select u from User u")
+query="Select u from User u" )
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer userId;
@@ -39,8 +39,10 @@ public class User implements Serializable {
 	private Boolean protectedData;//not null
 	private Rights rights;//not null
 	private Year year; 
-	private List<EvaluatedSkill> evaluatedSkills;
+//	private List<EvaluatedSkill> evaluatedSkills;
 
+	public User() {
+	}
 	@Id
 	@Column(name="utilisateur_id")
 	public Integer getUserId() {
@@ -55,29 +57,7 @@ public class User implements Serializable {
 		return this.description;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		return true;
-	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -143,16 +123,16 @@ public class User implements Serializable {
 		return protectedData;
 	}
 
-	//bi-directional many-to-one association to evaluatedSkills
-	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
-	public List<EvaluatedSkill> getEvaluatedSkills(){
-		return this.evaluatedSkills;
-	}
-
-	public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
-		this.evaluatedSkills=evaluatedSkills;
-
-	}
+//	//bi-directional many-to-one association to evaluatedSkills
+//	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
+//	public List<EvaluatedSkill> getEvaluatedSkills(){
+//		return this.evaluatedSkills;
+//	}
+//
+//	public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
+//		this.evaluatedSkills=evaluatedSkills;
+//
+//	}
 
 	public void setProtectedData(Boolean protectedData) {
 		this.protectedData = protectedData;
@@ -180,25 +160,46 @@ public class User implements Serializable {
 		this.year= year;
 	}
 
-	public User() {
-	}
 	
-	// calcul du niveau de l'�tudiant pour une liste de comp�tences pass�es en param�tre.
-	public Integer scoreWithSkills( List<Skill> set){
-		Integer score=0;
-		for(EvaluatedSkill evSkill:evaluatedSkills){
-			for (Skill s:set){
-				if(s.equals(evSkill)){
-					score+=evSkill.getLevel();
-					break;
-				}
-			}
+	
+//	// calcul du niveau de l'�tudiant pour une liste de comp�tences pass�es en param�tre.
+//	public Integer scoreWithSkills( List<Skill> set){
+//		Integer score=0;
+//		for(EvaluatedSkill evSkill:evaluatedSkills){
+//			for (Skill s:set){
+//				if(s.equals(evSkill)){
+//					score+=evSkill.getLevel();
+//					break;
+//				}
+//			}
+//
+//		}
+//		return score;
+//	}
 
-		}
-		return score;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
 	}
-
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
 
 
 
