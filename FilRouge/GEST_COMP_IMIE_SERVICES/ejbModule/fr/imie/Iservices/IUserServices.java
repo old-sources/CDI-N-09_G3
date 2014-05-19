@@ -13,33 +13,33 @@ import fr.imie.entity.users.Year;
 
 @Local
 public interface IUserServices {
-	
+
 	/**
 	 * @param User
 	 * @return User
 	 */
 	public abstract User insertUser(User user);
-	
+
 	/**
 	 * @param ID
 	 * @return User
 	 */
 	public abstract User searchUserByID(int ID);
-	
+
 	/**
 	 * @return List<User>
 	 */
 	public abstract List<User> listUser();
-	
-	
-	
+
+
+
 
 	/**
 	 * @param userToUpdate
 	 * @return User
 	 */
 	public abstract User updateUser(User userToUpdate);
-	
+
 	/**
 	 * @param User
 	 */
@@ -50,21 +50,17 @@ public interface IUserServices {
 	 * @return User
 	 */
 	public abstract User verifyAuthUser(User user);
-	
-	
+
+
 
 	/**
 	 * @param Year
 	 * @return Year
 	 */
 	public abstract Year insertYear(Year year);
-	
-	/**
-	 * @param Year
-	 * @return List<Year>
-	 */
-	public abstract List<Year> searchYear(Year year);
-	
+
+	public abstract Year searchYear(Integer id);
+
 	/**
 	 * @param YearToUpdate
 	 * @return Year
@@ -74,54 +70,45 @@ public interface IUserServices {
 	/**
 	 * @param Year
 	 */
-	 void deleteYearName(Year year);
+	void deleteYearName(Year year);
 
-	 public abstract SearchBySkillResult SearchUserBySkills(SearchBySkillResult res);
+	public abstract SearchBySkillResult SearchUserBySkills(SearchBySkillResult res);
 
 
-	 public abstract void Importer(File file);
-	
-	 public abstract Status insertStatus(Year year);
-		
-		/**
-		 * @param Year
-		 * @return List<Year>
-		 */
-		public abstract List<Status> searchStatus(Status year);
-		
-		/**
-		 * @param YearToUpdate
-		 * @return Year
-		 */
-		public abstract Status updateStatus(Status statusToUpdate);
+	public abstract void ImportUsers(File file);
 
-		/**
-		 * @param Year
-		 */
-		 void deleteStatus(Status status);
-		 
-		 public abstract Rights insertRights(Rights rights);
-			
-			/**
-			 * @param Year
-			 * @return List<Year>
-			 */
-			public abstract List<Rights> searchRights(Rights rights);
-			
-			/**
-			 * @param YearToUpdate
-			 * @return Year
-			 */
-			public abstract Rights updateRights(Rights rightsToUpdate);
 
-			/**
-			 * @param Year
-			 */
-			 void deleteRights(Rights rights);
-		
-		
 
+	public abstract Rights insertRights(Rights rights);
+
+	/**
+	 * @param Year
+	 * @return List<Year>
+	 */
+	public abstract List<Rights> listRights();
+
+	/**
+	 * @param YearToUpdate
+	 * @return Year
+	 */
+	public abstract Rights updateRights(Rights rightsToUpdate);
+
+	/**
+	 * @param Year
+	 */
+	public abstract void deleteRights(Rights rights);
 
 	
+
+
+
+	public abstract Rights searchRights(Integer id);
+
 	
+
+
+
+
+
+
 }

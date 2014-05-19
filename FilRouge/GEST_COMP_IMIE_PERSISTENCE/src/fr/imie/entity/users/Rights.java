@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
@@ -17,6 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="droits",
 schema="gestioncomp")
+@NamedQuery(name="findAllRights",
+query="Select r from Rights r")
 public class Rights implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer rightsId;
@@ -28,7 +31,7 @@ public class Rights implements Serializable {
 
 	@Id
 	@Column(name="droits_id")
-	public Integer getDroitsId() {
+	public Integer getRightsId() {
 		return this.rightsId;
 	}
 
@@ -37,11 +40,11 @@ public class Rights implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public RightsLabel getLabel() {
+	public RightsLabel getRightsLabel() {
 		return this.label;
 	}
 
-	public void setLibelle(RightsLabel label) {
+	public void setRightsLabel(RightsLabel label) {
 		this.label = label;
 	}
 

@@ -24,7 +24,7 @@ import fr.imie.entity.users.SearchBySkillResult;
 import fr.imie.entity.users.User;
 import fr.imie.entity.users.Year;
 
-@Stateless(name = "ServicesUtilisateurs")
+@Stateless(name = "UserServices")
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserServices implements IUserServices {
@@ -42,19 +42,32 @@ public class UserServices implements IUserServices {
 	@Override
 	public User insertUser(User user) {
 		User insertedUser = new User();
-		if(user.getLastName()!=null){
+		if((user.getLastName()!=null)
+				&&(user.getFirstName()!=null)
+				&&(user.getPassword()!=null)
+				&&(user.getAvaibility()!=null)
+				&&(user.getRights()!=null)
+				&&(user.getProtectedData()!=null)
+				&&(user.getLogin()!=null)){
 			insertedUser.setLastName(user.getLastName());
-		}
-		if(user.getFirstName()!=null){
+			insertedUser.setLogin(user.getLogin());
 			insertedUser.setFirstName(user.getFirstName());
-		}
-		if(user.getPassword()!=null){
 			insertedUser.setPassword(user.getPassword());
+			insertedUser.setAvaibility(user.getAvaibility());
+			insertedUser.setProtectedData(user.getProtectedData());
+			insertedUser.setRights(user.getRights());
+			if (user.getYear()!=null){
+				insertedUser.setYear(user.getYear());
+			}
+			if (user.getDescription()!=null){
+				insertedUser.setDescription(user.getDescription());
+			}
+			if (user.getMail()!=null){
+				insertedUser.setMail(user.getMail());
+			}
+			entityManager.persist(insertedUser);
 		}
-		if(user.getYear()!=null){
-			insertedUser.setYear(user.getYear());
-		}
-		entityManager.persist(insertedUser);
+
 		return insertedUser;
 	}
 
@@ -72,14 +85,25 @@ public class UserServices implements IUserServices {
 		return result;
 	}
 
-	
-	
+
+
 	@Override
 	public User updateUser(User userToUpdate) {
+		User updatedUser=new User();
 		if (userToUpdate!=null){
-			entityManager.merge(userToUpdate);
+			if((userToUpdate.getLastName()!=null)
+					&&(userToUpdate.getUserId()!=null)
+					&&(userToUpdate.getFirstName()!=null)
+					&&(userToUpdate.getPassword()!=null)
+					&&(userToUpdate.getAvaibility()!=null)
+					&&(userToUpdate.getRights()!=null)
+					&&(userToUpdate.getProtectedData()!=null)
+					&&(userToUpdate.getLogin()!=null)){
+				entityManager.merge(userToUpdate);
+				updatedUser=userToUpdate;
+			}
 		}
-		return userToUpdate;
+		return updatedUser;
 	}
 
 	@Override
@@ -88,7 +112,7 @@ public class UserServices implements IUserServices {
 			User userToRemove = entityManager.find(User.class, user.getUserId());
 			entityManager.remove(userToRemove);
 		}
-		
+
 	}
 
 	@Override
@@ -125,34 +149,47 @@ public class UserServices implements IUserServices {
 
 	@Override
 	public Year insertYear(Year year) {
-		entityManager.persist(year);
-		return year;
+		Year y=new Year();
+		if(year!=null&&year.getYearName()!=null){
+			y.setYearName(year.getYearName());
+			entityManager.persist(y);
+		}
+		return y;
 	}
 
 	@Override
-	public List<Year> searchYear(Year year) {
-		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
-
-		CriteriaQuery<Year> query = qb.createQuery(Year.class);
-		Root<Year> promotionRoot = query.from(Year.class);
-
-		List<Predicate> criteria = new ArrayList<Predicate>();
-		if (year.getYearName() != null) {
-			criteria.add(qb.like(promotionRoot.<String> get("libelle"), "*" + year.getYearName() + "*"));
-		}
-		if (year.getYearName() != null) {
-			criteria.add(qb.equal(promotionRoot.<String> get("id"), year.getYearName()));
-		}
-		query.where(criteria.toArray(new Predicate[] {}));
-
-		List<Year> result = entityManager.createQuery(query).getResultList();
-		return result;
+	public Year searchYear(Integer id) {
+		Year year=new Year();
+		year=entityManager.find(Year.class, id);
+		return year;
 	}
+//	public List<Year> searchYear(Year year) {
+//		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+//
+//		CriteriaQuery<Year> query = qb.createQuery(Year.class);
+//		Root<Year> promotionRoot = query.from(Year.class);
+//
+//		List<Predicate> criteria = new ArrayList<Predicate>();
+//		if (year.getYearName() != null) {
+//			criteria.add(qb.like(promotionRoot.<String> get("libelle"), "*" + year.getYearName() + "*"));
+//		}
+//		if (year.getYearId() != null) {
+//			criteria.add(qb.equal(promotionRoot.<String> get("id"), year.getYearId()));
+//		}
+//		query.where(criteria.toArray(new Predicate[] {}));
+//
+//		List<Year> result = entityManager.createQuery(query).getResultList();
+//		return result;
+//	}
 
 	@Override
 	public Year updateYear(Year yearToUpdate) {
+		Year year=new Year();
+		if(yearToUpdate!=null&&yearToUpdate.getYearId()!=null&&yearToUpdate.getYearName()!=null){
 		entityManager.merge(yearToUpdate);
-		return yearToUpdate;
+		year=yearToUpdate;
+		}
+		return year;
 	}
 
 	@Override
@@ -161,8 +198,8 @@ public class UserServices implements IUserServices {
 		entityManager.remove(yearToRemove);
 
 	}
-	
-	//renvoie un objet SearchBySkillResult composé d'un user d'une liste de 
+
+	//renvoie un objet SearchBySkillResult composï¿½ d'un user d'une liste de 
 	//EvaluatedUser et une liste de Skills
 	@Override
 	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
@@ -181,57 +218,54 @@ public class UserServices implements IUserServices {
 	}
 
 	@Override
-	public void Importer(File file) {
+	public void ImportUsers(File file) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
-	public Status insertStatus(Year year) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	@Override
-	public List<Status> searchStatus(Status year) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Status updateStatus(Status statusToUpdate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteStatus(Status status) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public Rights insertRights(Rights rights) {
-		// TODO Auto-generated method stub
-		return null;
+		Rights r=new Rights();
+		if(rights!=null&&rights.getRightsLabel()!=null){
+			r.setRightsLabel(rights.getRightsLabel());
+			entityManager.persist(r);
+		}
+		return r;
 	}
 
 	@Override
-	public List<Rights> searchRights(Rights rights) {
-		// TODO Auto-generated method stub
-		return null;
+	public Rights searchRights(Integer id) {
+		Rights rights=new Rights();
+		rights= entityManager.find(Rights.class,id);
+		return rights;
 	}
 
 	@Override
 	public Rights updateRights(Rights rightsToUpdate) {
-		// TODO Auto-generated method stub
-		return null;
+		Rights rights=new Rights();
+		if(rightsToUpdate!=null&&rightsToUpdate.getRightsId()!=null&&rightsToUpdate.getRightsLabel()!=null){
+		entityManager.merge(rightsToUpdate);
+		rights=rightsToUpdate;
+		}
+		return rights;
 	}
 
 	@Override
 	public void deleteRights(Rights rights) {
-		// TODO Auto-generated method stub
-		
+		Rights rightsToRemove = entityManager.find(Rights.class, rights.getRightsId());
+		entityManager.remove(rightsToRemove);
+
+	}
+
+	@Override
+	public List<Rights> listRights() {
+		TypedQuery<Rights> Query=entityManager.createQuery("findAllRights",Rights.class);
+		List<Rights> result=Query.getResultList();
+		return result;
 	}
 
 

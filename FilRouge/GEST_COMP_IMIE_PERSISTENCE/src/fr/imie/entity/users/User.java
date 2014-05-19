@@ -30,15 +30,15 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer userId;
 	private String description;
-	private Boolean avaibility;
-	private String login;
+	private Boolean avaibility;//not null
+	private String login;//not null
 	private String mail;
-	private String password;
-	private String lastName;
-	private String firstName;
-	private Boolean protectedData;
-	private Rights rights;
-	private Year year;
+	private String password;//not null
+	private String lastName;//not null
+	private String firstName;//not null
+	private Boolean protectedData;//not null
+	private Rights rights;//not null
+	private Year year; 
 	private List<EvaluatedSkill> evaluatedSkills;
 
 	@Id
@@ -183,7 +183,7 @@ public class User implements Serializable {
 	public User() {
 	}
 	
-	// calcul du niveau de l'étudiant pour une liste de compétences passées en paramètre.
+	// calcul du niveau de l'ï¿½tudiant pour une liste de compï¿½tences passï¿½es en paramï¿½tre.
 	public Integer scoreWithSkills( List<Skill> set){
 		Integer score=0;
 		for(EvaluatedSkill evSkill:evaluatedSkills){

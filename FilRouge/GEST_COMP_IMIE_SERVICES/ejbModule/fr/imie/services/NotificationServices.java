@@ -20,7 +20,7 @@ import fr.imie.entity.notification.Proposition;
 import fr.imie.entity.skills.Skill;
 import fr.imie.entity.users.User;
 
-@Stateless(name = "ServicesSkills")
+@Stateless(name = "NotificationServices")
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class NotificationServices implements INotificationServices {
@@ -131,7 +131,7 @@ public class NotificationServices implements INotificationServices {
 					UserNotif.addAll(queryInvit.getResultList());
 				}
 
-				if(user.getRights().getLabel().equals("admin")||user.getRights().getLabel().equals("superadmin")){
+				if(user.getRights().getRightsLabel().equals("admin")||user.getRights().getRightsLabel().equals("superadmin")){
 					TypedQuery<Proposition> queryProp;
 					String proposeSelect="SELECT p FROM Proposition p";
 					queryProp = entityManager.createQuery(proposeSelect,Proposition.class);

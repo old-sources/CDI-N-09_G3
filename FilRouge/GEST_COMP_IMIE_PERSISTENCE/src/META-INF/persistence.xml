@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0"
-	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="GEST_COMP_IMIE" transaction-type="JTA">
-	<jta-data-source>java:/GEST_COMP_IMIE</jta-data-source>
-	
-		
-		<class>fr.imie.entity.skills.Skill</class>
-		<class>fr.imie.entity.users.Rights</class>
-		<class>fr.imie.entity.skills.EvaluatedSkill</class>
-		<class>fr.imie.entity.projects.Project</class>
-		<class>fr.imie.entity.users.Year</class>
-		<class>fr.imie.entity.projects.Status</class>
-		<class>fr.imie.entity.users.User</class>
-		<class>fr.imie.entity.notification.Proposition</class>
-		<class>fr.imie.entity.notification.Candidature</class>
-		<class>fr.imie.entity.notification.Invitation</class>
-		<class>fr.imie.entity.notification.Notification</class>
-		
-			</persistence-unit>
+<persistence xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+<persistence-unit transaction-type="JTA" name="GEST_COMP_IMIE">
+
+<jta-data-source>java:/GEST_COMP_IMIE</jta-data-source>
+
+<class>fr.imie.entity.skills.Skill</class>
+
+<class>fr.imie.entity.users.Rights</class>
+
+<class>fr.imie.entity.skills.EvaluatedSkill</class>
+
+<class>fr.imie.entity.projects.Project</class>
+
+<class>fr.imie.entity.users.Year</class>
+
+<class>fr.imie.entity.projects.Status</class>
+
+<class>fr.imie.entity.users.User</class>
+
+<class>fr.imie.entity.notification.Proposition</class>
+
+<class>fr.imie.entity.notification.Candidature</class>
+
+<class>fr.imie.entity.notification.Invitation</class>
+
+<class>fr.imie.entity.notification.Notification</class>
+
+</persistence-unit>
+
 </persistence>

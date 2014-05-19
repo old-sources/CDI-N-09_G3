@@ -22,7 +22,7 @@ import fr.imie.entity.users.User;
 @Table(name="posseder",
 schema="gestioncomp")
 @NamedQuery(name="EvSkillsListUser",
-query="Select ek from EvaluatedSkill ek where ek.evaluatedSkillId=(:id)")
+query="Select ek from EvaluatedSkill ek where ek.user.userId=(:id)")
 public class EvaluatedSkill implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer evaluatedSkillId;

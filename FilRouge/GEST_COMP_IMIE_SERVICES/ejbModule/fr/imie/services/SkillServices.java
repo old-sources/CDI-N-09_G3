@@ -15,7 +15,7 @@ import fr.imie.entity.skills.EvaluatedSkill;
 import fr.imie.entity.skills.Skill;
 import fr.imie.entity.users.User;
 
-@Stateless(name = "ServicesSkills")
+@Stateless(name = "SkillsServices")
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class SkillServices implements ISkillServices {
@@ -73,7 +73,7 @@ public class SkillServices implements ISkillServices {
 
 	@Override
 	public void deleteSkill(Skill skill) {
-		if(skill!=null){
+		if((skill!=null)&&(skill.getDaughterSkills().isEmpty())){
 		Skill skillToRemove = entityManager.find(Skill.class, skill.getSkillId());
 		entityManager.remove(skillToRemove);
 		}

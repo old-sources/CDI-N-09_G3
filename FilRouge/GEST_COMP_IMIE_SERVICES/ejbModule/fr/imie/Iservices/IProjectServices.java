@@ -8,7 +8,7 @@ import fr.imie.entity.users.User;
 
 public interface IProjectServices {
 
-//	Créer un projet
+//	Crï¿½er un projet
 	public abstract Project createProject(Project project);
 	
 //	Modifier la fiche projet :
@@ -40,10 +40,16 @@ public interface IProjectServices {
 		public abstract void deleteProject(Status status);
 		
 	// chercher un projet
-		public abstract List<Status> findStatusById(int id);
+		public abstract Status findStatusById(Integer id);
 		
 	//chercher les projets d'un utilisateur
-		public abstract Status createStatus(Status status);
+		public abstract Status insertStatus(Status status);
+
+		  public abstract	void deleteStatus(Status status);
+
+		
+
+		
 
 		
 	
