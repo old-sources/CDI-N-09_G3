@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,8 +24,12 @@ import fr.imie.entity.skills.Skill;
 @Entity
 @Table(name="utilisateur",
 schema="gestioncomp")
+@NamedQueries({
 @NamedQuery(name="findAllUsers",
-query="Select u from User u" )
+query="Select u from User u" ),
+@NamedQuery(name="findUserWithSkills",
+query="Select u from User u join fetch u.evaluatedSkills where u.userId=:id" )
+})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer userId;
@@ -39,7 +43,7 @@ public class User implements Serializable {
 	private Boolean protectedData;//not null
 	private Rights rights;//not null
 	private Year year; 
-//	private List<EvaluatedSkill> evaluatedSkills;
+	private List<EvaluatedSkill> evaluatedSkills;
 
 	public User() {
 	}
@@ -122,18 +126,34 @@ public class User implements Serializable {
 	public Boolean getProtectedData() {
 		return protectedData;
 	}
+	
+//	uni-directional many-to-one association to evaluatedSkills
+	@OneToMany(
+			targetEntity=EvaluatedSkill.class)
+	@JoinColumn(name="utilisateur_id")
+	public List<EvaluatedSkill> getEvaluatedSkills(){
+		return this.evaluatedSkills;
+	}
 
-//	//bi-directional many-to-one association to evaluatedSkills
-//	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
-//	public List<EvaluatedSkill> getEvaluatedSkills(){
-//		return this.evaluatedSkills;
+	public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
+		this.evaluatedSkills=evaluatedSkills;
+
+	}
+
+//	public EvaluatedSkill addEvaluatedSkill(EvaluatedSkill evSkill) {
+//		getEvaluatedSkills().add(evSkill);
+//		evSkill.setUser(this);
+//
+//		return evSkill;
 //	}
 //
-//	public void setEvaluatedSkills(List<EvaluatedSkill> evaluatedSkills){
-//		this.evaluatedSkills=evaluatedSkills;
+//	public EvaluatedSkill removeEvaluatedSkill(EvaluatedSkill evSkill) {
+//		getEvaluatedSkills().remove(evSkill);
+//		evSkill.setUser(null);
 //
+//		return evSkill;
 //	}
-
+//		
 	public void setProtectedData(Boolean protectedData) {
 		this.protectedData = protectedData;
 	}
@@ -159,23 +179,39 @@ public class User implements Serializable {
 	public void setYear(Year year) {
 		this.year= year;
 	}
+	
+	
+	
+	public User(String description, Boolean avaibility,
+			String login, String mail, String password, String lastName,
+			String firstName, Boolean protectedData, Rights rights, Year year) {
+		super();
+		
+		this.description = description;
+		this.avaibility = avaibility;
+		this.login = login;
+		this.mail = mail;
+		this.password = password;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.protectedData = protectedData;
+		this.rights = rights;
+		this.year = year;
+	}
+	// calcul du niveau de l'�tudiant pour une liste de comp�tences pass�es en param�tre.
+	public Integer scoreWithSkills( List<Skill> set){
+		Integer score=0;
+		for(EvaluatedSkill evSkill:evaluatedSkills){
+			for (Skill s:set){
+				if(s.equals(evSkill)){
+					score+=evSkill.getLevel();
+					break;
+				}
+			}
 
-	
-	
-//	// calcul du niveau de l'�tudiant pour une liste de comp�tences pass�es en param�tre.
-//	public Integer scoreWithSkills( List<Skill> set){
-//		Integer score=0;
-//		for(EvaluatedSkill evSkill:evaluatedSkills){
-//			for (Skill s:set){
-//				if(s.equals(evSkill)){
-//					score+=evSkill.getLevel();
-//					break;
-//				}
-//			}
-//
-//		}
-//		return score;
-//	}
+		}
+		return score;
+	}
 
 	@Override
 	public int hashCode() {

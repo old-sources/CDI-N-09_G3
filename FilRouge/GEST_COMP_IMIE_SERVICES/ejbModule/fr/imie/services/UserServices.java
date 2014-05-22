@@ -10,7 +10,6 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,9 +17,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import fr.imie.Iservices.IUserServices;
-import fr.imie.entity.users.EvaluatedUser;
 import fr.imie.entity.users.Rights;
-import fr.imie.entity.users.SearchBySkillResult;
 import fr.imie.entity.users.User;
 import fr.imie.entity.users.Year;
 
@@ -36,7 +33,7 @@ public class UserServices implements IUserServices {
 	 * Default constructor.
 	 */
 	public UserServices() {
-		
+
 	}
 
 	@Override
@@ -49,49 +46,44 @@ public class UserServices implements IUserServices {
 				&&(user.getRights()!=null)
 				&&(user.getProtectedData()!=null)
 				&&(user.getLogin()!=null)){
-			insertedUser.setLastName(user.getLastName());
-			insertedUser.setLogin(user.getLogin());
-			insertedUser.setFirstName(user.getFirstName());
-			insertedUser.setPassword(user.getPassword());
-			insertedUser.setAvaibility(user.getAvaibility());
-			insertedUser.setProtectedData(user.getProtectedData());
-			insertedUser.setRights(user.getRights());
-			if (user.getYear()!=null){
-				insertedUser.setYear(user.getYear());
-			}
-			if (user.getDescription()!=null){
-				insertedUser.setDescription(user.getDescription());
-			}
-			if (user.getMail()!=null){
-				insertedUser.setMail(user.getMail());
-			}
-			entityManager.persist(insertedUser);
+			User u=new User(user.getDescription(), user.getAvaibility(), 
+					user.getLogin(), user.getMail(), 
+					user.getPassword(), user.getLastName(), user.getFirstName(), 
+					user.getProtectedData(), user.getRights(), user.getYear());
+
+			//			insertedUser.setLastName(user.getLastName());
+			//			insertedUser.setLogin(user.getLogin());
+			//			insertedUser.setFirstName(user.getFirstName());
+			//			insertedUser.setPassword(user.getPassword());
+			//			insertedUser.setAvaibility(user.getAvaibility());
+			//			insertedUser.setProtectedData(user.getProtectedData());
+			//			insertedUser.setRights(user.getRights());
+			//			if (user.getYear()!=null){
+			//				insertedUser.setYear(user.getYear());
+			//			}
+			//			if (user.getDescription()!=null){
+			//				insertedUser.setDescription(user.getDescription());
+			//			}
+			//			if (user.getMail()!=null){
+			//				insertedUser.setMail(user.getMail());
+			//			}
+			entityManager.persist(u);
+			insertedUser=u;
 		}
 
 		return insertedUser;
 	}
 
 	@Override
-	public User searchUserByID(int ID) {
+	public User searchUserByID(int id) {
 		User user = new User();
-		
-		user = entityManager.find(User.class, ID);
-	
-		
+
+		TypedQuery<User> query=entityManager.createNamedQuery("findUserWithSkills", User.class);
+		query.setParameter("id", id);
+		user=query.getSingleResult();
 		return user;
 	}
 
-	@Override
-	public List<User> listUser() {
-			
-		TypedQuery<User> query=entityManager.createNamedQuery("findAllUsers",User.class);
-		
-		List<User> result=query.getResultList();
-		
-		return result;
-		
-		
-	}
 
 
 
@@ -171,31 +163,31 @@ public class UserServices implements IUserServices {
 		year=entityManager.find(Year.class, id);
 		return year;
 	}
-//	public List<Year> searchYear(Year year) {
-//		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
-//
-//		CriteriaQuery<Year> query = qb.createQuery(Year.class);
-//		Root<Year> promotionRoot = query.from(Year.class);
-//
-//		List<Predicate> criteria = new ArrayList<Predicate>();
-//		if (year.getYearName() != null) {
-//			criteria.add(qb.like(promotionRoot.<String> get("libelle"), "*" + year.getYearName() + "*"));
-//		}
-//		if (year.getYearId() != null) {
-//			criteria.add(qb.equal(promotionRoot.<String> get("id"), year.getYearId()));
-//		}
-//		query.where(criteria.toArray(new Predicate[] {}));
-//
-//		List<Year> result = entityManager.createQuery(query).getResultList();
-//		return result;
-//	}
+	//	public List<Year> searchYear(Year year) {
+	//		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+	//
+	//		CriteriaQuery<Year> query = qb.createQuery(Year.class);
+	//		Root<Year> promotionRoot = query.from(Year.class);
+	//
+	//		List<Predicate> criteria = new ArrayList<Predicate>();
+	//		if (year.getYearName() != null) {
+	//			criteria.add(qb.like(promotionRoot.<String> get("libelle"), "*" + year.getYearName() + "*"));
+	//		}
+	//		if (year.getYearId() != null) {
+	//			criteria.add(qb.equal(promotionRoot.<String> get("id"), year.getYearId()));
+	//		}
+	//		query.where(criteria.toArray(new Predicate[] {}));
+	//
+	//		List<Year> result = entityManager.createQuery(query).getResultList();
+	//		return result;
+	//	}
 
 	@Override
 	public Year updateYear(Year yearToUpdate) {
 		Year year=new Year();
 		if(yearToUpdate!=null&&yearToUpdate.getYearId()!=null&&yearToUpdate.getYearName()!=null){
-		entityManager.merge(yearToUpdate);
-		year=yearToUpdate;
+			entityManager.merge(yearToUpdate);
+			year=yearToUpdate;
 		}
 		return year;
 	}
@@ -208,22 +200,22 @@ public class UserServices implements IUserServices {
 	}
 
 	//renvoie un objet SearchBySkillResult compos� d'un user d'une liste de 
-//	//EvaluatedUser et une liste de Skills
-//	@Override
-//	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
-//		List<User> users = listUser();
-//		List<EvaluatedUser> foundUsers=new ArrayList<EvaluatedUser>();
-//		for(User user:users){
-//			if((user.getAvaibility()==true)&&(user.scoreWithSkills(res.getSearchedSkills())>0)){
-//				EvaluatedUser evuser =new EvaluatedUser();
-//				evuser.setUser(user);
-//				evuser.setLevel(user.scoreWithSkills(res.getSearchedSkills()));
-//				foundUsers.add(evuser);
-//			}
-//		}
-//		res.setFoundUsers(foundUsers);
-//		return res;
-//	}
+	//	//EvaluatedUser et une liste de Skills
+	//	@Override
+	//	public SearchBySkillResult SearchUserBySkills(SearchBySkillResult res){
+	//		List<User> users = listUser();
+	//		List<EvaluatedUser> foundUsers=new ArrayList<EvaluatedUser>();
+	//		for(User user:users){
+	//			if((user.getAvaibility()==true)&&(user.scoreWithSkills(res.getSearchedSkills())>0)){
+	//				EvaluatedUser evuser =new EvaluatedUser();
+	//				evuser.setUser(user);
+	//				evuser.setLevel(user.scoreWithSkills(res.getSearchedSkills()));
+	//				foundUsers.add(evuser);
+	//			}
+	//		}
+	//		res.setFoundUsers(foundUsers);
+	//		return res;
+	//	}
 
 	@Override
 	public void ImportUsers(File file) {
@@ -231,9 +223,9 @@ public class UserServices implements IUserServices {
 
 	}
 
-	
 
-	
+
+
 
 	@Override
 	public Rights insertRights(Rights rights) {
@@ -256,8 +248,8 @@ public class UserServices implements IUserServices {
 	public Rights updateRights(Rights rightsToUpdate) {
 		Rights rights=new Rights();
 		if(rightsToUpdate!=null&&rightsToUpdate.getRightsId()!=null&&rightsToUpdate.getRightsLabel()!=null){
-		entityManager.merge(rightsToUpdate);
-		rights=rightsToUpdate;
+			entityManager.merge(rightsToUpdate);
+			rights=rightsToUpdate;
 		}
 		return rights;
 	}
@@ -274,6 +266,22 @@ public class UserServices implements IUserServices {
 		TypedQuery<Rights> Query=entityManager.createQuery("findAllRights",Rights.class);
 		List<Rights> result=Query.getResultList();
 		return result;
+	}
+
+	public List<User> listUsersWithoutSkills() {
+		TypedQuery<User> query=entityManager.createNamedQuery("findAllUsers",User.class);
+		List<User> result=query.getResultList();
+		List<User> users=new ArrayList<User>();
+		for(User user:result){
+			User u=new User(user.getDescription(), user.getAvaibility(), 
+					user.getLogin(), user.getMail(), 
+					user.getPassword(), user.getLastName(), user.getFirstName(), 
+					user.getProtectedData(), user.getRights(), user.getYear());
+			u.setUserId(user.getUserId());
+			users.add(u);
+		}
+		return users;
+		
 	}
 
 

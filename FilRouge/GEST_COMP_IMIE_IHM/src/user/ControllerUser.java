@@ -55,7 +55,7 @@ public class ControllerUser extends HttpServlet {
 		
 		if (matcher.find())
 		{
-			Pattern pattern1 = Pattern.compile("(all)");
+			Pattern pattern1 = Pattern.compile("user/json/all");
 			Matcher matcher1 = pattern1.matcher(request.getRequestURL());
 			if (matcher1.find()) {
 				response.setContentType("application/json; charset=UTF-8");
@@ -64,8 +64,9 @@ public class ControllerUser extends HttpServlet {
 				List<User> users = new ArrayList<User>();
 				
 				
-				users=userService.listUser();
-				System.out.println("taille "+users.size());
+				users=userService.listUsersWithoutSkills();
+				
+				
 //				ArrayList<UserIHMTemp> users = new ArrayList<UserIHMTemp>();
 //				
 //				UserIHMTemp a = new UserIHMTemp();
@@ -116,27 +117,31 @@ public class ControllerUser extends HttpServlet {
 			}
 			else
 			{
-				/*Pattern patternUser = Pattern.compile("user/json/([0-9]*)");
+				Pattern patternUser = Pattern.compile("user/json/([0-9]*)");
 				Matcher matcherUser = patternUser.matcher(request.getRequestURL());
-				Integer idUser = Integer.valueOf(matcherUser.group(1));*/
+				if(matcherUser.find()){
+				Integer idUser = Integer.valueOf(matcherUser.group(1));
 				response.setContentType("application/json; charset=UTF-8");
 				PrintWriter writer = response.getWriter();
 				Gson gson = new Gson();
-				UserIHMTemp a = new UserIHMTemp();
-				a.setFirstName("Bouchard");
-				a.setLastName("gérard");
-				a.setMail("gerard@bouchard.com");
-				a.setYear(1);
-				a.setYearName("CDI 09");
-				a.setAvailability(true);
-				a.setAvailabilityName("disponible");
-				String json = gson.toJson(a);
+				User a=userService.searchUserByID(idUser);
+//				UserIHMTemp a = new UserIHMTemp();
+//				a.setFirstName("Bouchard");
+//				a.setLastName("gérard");
+//				a.setMail("gerard@bouchard.com");
+//				a.setYear(1);
+//				a.setYearName("CDI 09");
+//				a.setAvailability(true);
+//				a.setAvailabilityName("disponible");
+				String json=null;
+				json= gson.toJson(a);
 				writer.print(json);
+				}
 			}
 		}
 		else if(matcherModale.find())
 		{
-			//Integer idUser = Integer.valueOf(matcher2.group(1));
+			
 			ServletContext context= request.getSession().getServletContext();
 			RequestDispatcher rd= context.getRequestDispatcher("/userModale.jsp");
 			rd.include(request, response);
@@ -148,22 +153,22 @@ public class ControllerUser extends HttpServlet {
 			RequestDispatcher rd= context.getRequestDispatcher("/user.jsp");
 			rd.include(request, response);
 		}
-		else if (matcher.find()) {
-			Integer idUser = Integer.valueOf(matcher.group(1));
-			response.setContentType("application/json; charset=UTF-8");
-			PrintWriter writer = response.getWriter();
-			Gson gson = new Gson();
-			UserIHMTemp a = new UserIHMTemp();
-			a.setFirstName("Bouchard");
-			a.setLastName("gérard");
-			a.setMail("gerard@bouchard.com");
-			a.setYear(1);
-			a.setYearName("CDI 09");
-			a.setAvailability(true);
-			a.setAvailabilityName("disponible");
-			String json = gson.toJson(a);
-			writer.print(json);
-		}
+//		else if (matcher.find()) {
+//			Integer idUser = Integer.valueOf(matcher.group(1));
+//			response.setContentType("application/json; charset=UTF-8");
+//			PrintWriter writer = response.getWriter();
+//			Gson gson = new Gson();
+//			UserIHMTemp a = new UserIHMTemp();
+//			a.setFirstName("Bouchard");
+//			a.setLastName("gérard");
+//			a.setMail("gerard@bouchard.com");
+//			a.setYear(1);
+//			a.setYearName("CDI 09");
+//			a.setAvailability(true);
+//			a.setAvailabilityName("disponible");
+//			String json = gson.toJson(a);
+//			writer.print(json);
+//		}
 		
 	}
 
@@ -179,7 +184,11 @@ public class ControllerUser extends HttpServlet {
 		Matcher matcher = pattern.matcher(request.getRequestURL());
 		if (matcher.find()) {
 			Integer idUser = Integer.valueOf(matcher.group(1));
+			User u =new User();
+			u.setUserId(idUser);
+			userService.deleteUser(u);
 		}
+		
 	}
 
 }

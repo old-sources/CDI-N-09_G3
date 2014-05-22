@@ -62,9 +62,12 @@
 						
 						<th> Promotion <br><select id="selectDashboardUserYearName" class="searchUserSelect" style="width:130px;">
 							<option value="">Tous les utilisateurs</option>
-							<option value="CDI09">CDI09</option>
-							<option value="IT Start 03">IT Start 03</option>
-							<option value="CDPN 06">Cloturé</option>
+							<option value="CDI03">CDI03</option>
+							<option value="CDI02">CDI02</option>
+							<option value="DL03">DL03</option>
+							<option value="CDPN04">CDPN04</option>
+							<option value="CDI04">CDI04</option>
+							<option value="DL02">DL02</option>
 							</select>
 						</th>
 						<th> Actif <br>

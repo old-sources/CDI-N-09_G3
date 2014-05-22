@@ -1,5 +1,6 @@
 package fr.imie.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -8,6 +9,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import fr.imie.Iservices.IProjectServices;
 import fr.imie.entity.projects.Project;
@@ -21,25 +23,35 @@ public class ProjectServices implements IProjectServices{
 
 	@PersistenceContext(unitName="GEST_COMP_IMIEPU")
 	private EntityManager entityManager;
-	
+
 	@Override
 	public Project createProject(Project project) {
-		// TODO Auto-generated method stub
-		return null;
+		Project p=null;
+
+		if((project.getProgress()!=null)
+				&&(project.getName()!=null)
+				&&(project.getStatus() !=null)
+				&&(project.getProjectManager() !=null)){
+			p=new Project(project.getProgress(), project.getName(), project.getStatus(), project.getProjectManager());
+			
+			p.addMember(project.getProjectManager());
+			entityManager.persist(p);
+		}
+		return p;
 	}
 	//Modifier la fiche projet :
-//		Modifier le wiki groupe
-//		ou Modifier le wiki chef de projet
-//		ou Changer le statut d'un projet
-//		ou Changer de chef de projet
-//	Integer id;
-//	private Integer progress;
-//	private String name;
-//	private String wikiManager;
-//	private String wikiMembers;
-//	private List<User> members;
-//	private Status status;
-//	private User projectManager;
+	//		Modifier le wiki groupe
+	//		ou Modifier le wiki chef de projet
+	//		ou Changer le statut d'un projet
+	//		ou Changer de chef de projet
+	//	Integer id;
+	//	private Integer progress;
+	//	private String name;
+	//	private String wikiManager;
+	//	private String wikiMembers;
+	//	private List<User> members;
+	//	private Status status;
+	//	private User projectManager;
 	@Override
 	public Project updateProject(Project project) {
 		Project projectToUpdate=new Project();
@@ -51,25 +63,50 @@ public class ProjectServices implements IProjectServices{
 
 	@Override
 	public void deleteProject(Project project) {
-		// TODO Auto-generated method stub
+		if(project!=null){
+			Project projectToRemove = entityManager.find(Project.class, project.getProjetId());
+			entityManager.remove(projectToRemove);
+		}
+
+	}
+	
+		
+
+	@Override
+	public Project findProject(Integer id) {
+		
+			Project project = new Project();
+
+			TypedQuery<Project> query=entityManager.createNamedQuery("findProjectWithMembers", Project.class);
+			query.setParameter("id", id);
+			project=query.getSingleResult();
+			return project;
 		
 	}
 
 	@Override
-	public Project findProject(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Project> findAllProjectsWithOutMembers() {
+		TypedQuery<Project> query=entityManager.createQuery("SELECT p FROM Project p ",Project.class);
+		List<Project> result=query.getResultList();
+		for(Project project:result){
+			project.setMembers(null);
+			project.getProjectManager().setEvaluatedSkills(null);
+		}
+		return result;
 	}
 
 	@Override
 	public List<Project> findProjects(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void deleteProject(Status status) {
-		// TODO Auto-generated method stub
-		
+		List<Project> projects=new ArrayList<Project>();
+
+		if(user!=null){
+			Integer id=user.getUserId();
+
+			TypedQuery<Project> query=entityManager.createNamedQuery("SELECT p FROM Project p join fetch p.members WHERE p.projectId=:id", Project.class);
+			query.setParameter("id", id);
+			projects=query.getResultList();
+		}
+		return projects;
 	}
 
 	@Override
@@ -93,8 +130,8 @@ public class ProjectServices implements IProjectServices{
 	public Status updateStatus(Status statusToUpdate) {
 		Status status=new Status();
 		if(statusToUpdate!=null&&statusToUpdate.getStatusId()!=null&&statusToUpdate.getStatusName()!=null){
-		entityManager.merge(statusToUpdate);
-		status=statusToUpdate;
+			entityManager.merge(statusToUpdate);
+			status=statusToUpdate;
 		}
 		return status;
 	}
@@ -104,6 +141,7 @@ public class ProjectServices implements IProjectServices{
 		entityManager.remove(statusToRemove);
 
 	}
-
 	
+
+
 }

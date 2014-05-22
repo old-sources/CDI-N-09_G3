@@ -29,7 +29,7 @@ public interface IUserServices {
 	/**
 	 * @return List<User>
 	 */
-	public abstract List<User> listUser();
+	
 
 	
 
@@ -103,6 +103,8 @@ public interface IUserServices {
 
 
 	public abstract Rights searchRights(Integer id);
+
+	public abstract List<User> listUsersWithoutSkills();
 
 	
 

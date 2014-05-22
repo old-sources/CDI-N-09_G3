@@ -1,7 +1,6 @@
 package fr.imie.entity.skills;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -30,7 +28,7 @@ public class Skill implements Serializable {
 	
 	private Boolean validation;
 	private Skill motherSkill;
-	private List<Skill> daughterSkills;
+//	private List<Skill> daughterSkills;
 	
 	public Skill() {
 	}
@@ -65,7 +63,7 @@ public class Skill implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Skill
+	//uni-directional many-to-one association to Skill
 	@ManyToOne
 	@JoinColumn(name="competence_mere_id")
 	public Skill getMotherSkill() {
@@ -78,28 +76,28 @@ public class Skill implements Serializable {
 
 
 //bi-directional many-to-one association to Skill
-@OneToMany(mappedBy="motherSkill")
-public List<Skill> getDaughterSkills() {
-		return this.daughterSkills;
-	}
-
-	public void setDaughterSkills(List<Skill> competences) {
-		this.daughterSkills = competences;
-	}
-
-	public Skill addSkill(Skill competence) {
-		getDaughterSkills().add(competence);
-		competence.setMotherSkill(this);
-
-		return competence;
-	}
-
-	public Skill removeSkill(Skill competence) {
-		getDaughterSkills().remove(competence);
-		competence.setMotherSkill(null);
-
-		return competence;
-	}
+//@OneToMany(mappedBy="motherSkill")
+//public List<Skill> getDaughterSkills() {
+//		return this.daughterSkills;
+//	}
+//
+//	public void setDaughterSkills(List<Skill> competences) {
+//		this.daughterSkills = competences;
+//	}
+//
+//	public Skill addSkill(Skill competence) {
+//		getDaughterSkills().add(competence);
+//		competence.setMotherSkill(this);
+//
+//		return competence;
+//	}
+//
+//	public Skill removeSkill(Skill competence) {
+//		getDaughterSkills().remove(competence);
+//		competence.setMotherSkill(null);
+//
+//		return competence;
+//	}
 	
 		@Override
 	public int hashCode() {

@@ -1,18 +1,23 @@
 package fr.imie.entity.projects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import fr.imie.entity.users.User;
 
@@ -26,14 +31,29 @@ import fr.imie.entity.users.User;
 schema="gestioncomp")
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private Integer projectId;
 	private Integer progress;
 	private String name;
 	private String wikiManager;
 	private String wikiMembers;
+	
 	private List<User> members;
 	private Status status;
 	private User projectManager;
+	private Date CreationDate;
+	
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_creation")
+	public Date getCreationDate() {
+		return CreationDate;
+	}
+
+
+	public void setCreationDate(Date creationDate) {
+		CreationDate = creationDate;
+	}
+
 
 	public Project() {
 	}
@@ -41,21 +61,26 @@ public class Project implements Serializable {
 
 	@Id
 	@Column(name="projet_id")
+	@GeneratedValue(
+			strategy=GenerationType.AUTO)
 	public Integer getProjetId() {
-		return this.id;
+		return this.projectId;
 	}
 
 	public void setProjetId(Integer projetId) {
-		this.id = projetId;
+		this.projectId = projetId;
 	}
 
+	@Basic
 	@Column(name="avancement")
 	public Integer getProgress() {
 		return this.progress;
 	}
 
 	public void setProgress(Integer avancement) {
-		if(avancement>0&&avancement<=5)	this.progress = avancement;
+//		if(avancement>0&&avancement<=100){
+			this.progress = avancement;
+//		}
 	}
 
 	@Column(name="nom")
@@ -63,11 +88,21 @@ public class Project implements Serializable {
 		return this.name;
 	}
 
+	public Project(Integer progress, String name, Status status,
+			User projectManager) {
+		super();
+		this.progress = progress;
+		this.name = name;
+		this.status = status;
+		this.projectManager = projectManager;
+	}
+
+
 	public void setName(String nom) {
 		this.name = nom;
 	}
 
-	@Lob
+	
 	@Column(name="wiki_cdp")
 	public String getWikiManager() {
 		return this.wikiManager;
@@ -77,7 +112,7 @@ public class Project implements Serializable {
 		this.wikiManager = wikiCdp;
 	}
 
-	@Lob
+
 	@Column(name="wiki_groupe")
 	public String getWikiMembers() {
 		return this.wikiMembers;
@@ -89,10 +124,10 @@ public class Project implements Serializable {
 
 
 	//uni-directional many-to-many association to User
-	@ManyToMany
-	@JoinTable(
-		name="participer"
-		, joinColumns={
+@ManyToMany
+@JoinTable(name="gestioncomp.participer"
+		,
+		joinColumns={
 			@JoinColumn(name="projet_id")
 			}
 		, inverseJoinColumns={
@@ -122,7 +157,7 @@ public class Project implements Serializable {
 
 	//uni-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="id_chef_projet")
+	@JoinColumn(name="chef_projet_id")
 	public User getProjectManager() {
 		return this.projectManager;
 	}
@@ -136,7 +171,7 @@ public class Project implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((projectId == null) ? 0 : projectId.hashCode());
 		return result;
 	}
 
@@ -150,22 +185,22 @@ public class Project implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Project other = (Project) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (projectId == null) {
+			if (other.projectId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!projectId.equals(other.projectId))
 			return false;
 		return true;
 	}
 
-
 	public void addMember(User userToIntegrate) {
-		List<User> users=new ArrayList<User>();
-		if (userToIntegrate!=null){
-			users.add(userToIntegrate);
-			setMembers(users);
-		}
 		
+		if (userToIntegrate!=null){
+			members.add(userToIntegrate);
+		}
+	}
+	public Boolean  removeMember(User userToIntegrate) {
+			return members.remove(userToIntegrate);	
 	}
 
 }

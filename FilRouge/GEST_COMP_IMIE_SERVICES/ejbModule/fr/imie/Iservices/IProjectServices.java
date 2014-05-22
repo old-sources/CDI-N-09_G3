@@ -30,22 +30,25 @@ public interface IProjectServices {
 //chercher les projets d'un utilisateur
 	public abstract List<Project> findProjects(User user);
 
-
-
-
+	//lister tous les projets sans ramener les membres
+	 public abstract List<Project> findAllProjectsWithOutMembers();
+	
 	// CRUD statut
 	public abstract Status updateStatus(Status status);
 	
-	//supprimer un projet
-		public abstract void deleteProject(Status status);
+	
 		
-	// chercher un projet
+	// chercher un status
 		public abstract Status findStatusById(Integer id);
 		
-	//chercher les projets d'un utilisateur
+	//chercher les projets d'un status
 		public abstract Status insertStatus(Status status);
-
+//supprimer un status
 		  public abstract	void deleteStatus(Status status);
+
+		 
+
+		
 
 		
 

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import fr.imie.entity.users.User;
@@ -21,19 +21,13 @@ import fr.imie.entity.users.User;
 @Entity
 @Table(name="posseder",
 schema="gestioncomp")
-@NamedQuery(name="EvSkillsListUser",
-query="Select ek from EvaluatedSkill ek where ek.user.userId=(:id)")
 public class EvaluatedSkill implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer evaluatedSkillId;
 	private Integer level;
 	private Skill skill;
 	private User user;
-
-	public EvaluatedSkill() {
-	}
-
-
+	
 	@Id
 	@Column(name="posseder_id")
 	public Integer getEvaluatedSkillId() {
@@ -59,10 +53,23 @@ public class EvaluatedSkill implements Serializable {
 		
 		if(niveau>0&&niveau<=5)this.level = niveau;
 	}
+//	@ManyToOne(targetEntity=User.class)
+//	@JoinColumn(name="utilisateur_id")
+//	public User getUser() {
+//		return user;
+//	}
+//
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 
-	//uni-directional many-to-one association to Skill
-	@ManyToOne
+	public EvaluatedSkill() {
+	}
+
+	//uni-directional one-to-one association to Skill
+	@OneToOne
 	@JoinColumn(name="competence_id")
 	public Skill getSkill() {
 		return this.skill;
@@ -72,17 +79,6 @@ public class EvaluatedSkill implements Serializable {
 		this.skill = skill;
 	}
 
-
-	//uni-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="utilisateur_id")
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 
 	@Override

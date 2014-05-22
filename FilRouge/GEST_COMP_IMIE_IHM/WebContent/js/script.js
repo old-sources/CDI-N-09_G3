@@ -22,7 +22,7 @@ function project(arg)
 function user(arg)
 {
     var options = arg||{};
-    this.id = options.id;
+    this.id = options.userId;
     this.firstName = options.firstName;
     this.lastName = options.lastName;
     this.availability = options.availability;
@@ -32,8 +32,8 @@ function user(arg)
     this.town = options.town;
     this.mail = options.mail;
     this.phoneNumber = options.phoneNumber;
-    this.year = options.year;
-    this.yearName = options.yearName;
+    this.year = options.year.yearId;
+    this.yearName = options.year.yearName;
     this.skills = options.skills;
     this.notifications = options.notifications;
 }

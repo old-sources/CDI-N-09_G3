@@ -16,7 +16,7 @@ public class Invitation extends Notification implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private Project project;
-	private User ConcernedManager;
+
 	
 	@ManyToOne
 	@JoinColumn(name="projet_id")

@@ -73,7 +73,9 @@ public class SkillServices implements ISkillServices {
 
 	@Override
 	public void deleteSkill(Skill skill) {
-		if((skill!=null)&&(skill.getDaughterSkills().isEmpty())){
+		if((skill!=null)
+//				&&(skill.getDaughterSkills().isEmpty())
+				){
 		Skill skillToRemove = entityManager.find(Skill.class, skill.getSkillId());
 		entityManager.remove(skillToRemove);
 		}
@@ -85,13 +87,13 @@ public class SkillServices implements ISkillServices {
 		return skill;
 	
 	}
-	public List<EvaluatedSkill> EvSkillslist(User user) {
-		TypedQuery<EvaluatedSkill> query = entityManager.createNamedQuery("EvSkillsListUser",EvaluatedSkill.class);
-		query.setParameter("id", user.getUserId());
-		List<EvaluatedSkill> result = query.getResultList();
-		
-		return result;
-	}
+//	public List<EvaluatedSkill> EvSkillslist(User user) {
+//		TypedQuery<EvaluatedSkill> query = entityManager.createNamedQuery("EvSkillsListUser",EvaluatedSkill.class);
+//		query.setParameter("id", user.getUserId());
+//		List<EvaluatedSkill> result = query.getResultList();
+//		
+//		return result;
+//	}
 
 	@Override
 	public EvaluatedSkill updateEvSkill(EvaluatedSkill EvSkillToUpdate) {
@@ -118,11 +120,11 @@ public class SkillServices implements ISkillServices {
 				&&evSkill.getSkill().getName()!=null
 				&&evSkill.getLevel()>0
 				&&evSkill.getLevel()<=5
-				&&evSkill.getUser()!=null
+//				&&evSkill.getUser()!=null
 				){
 			evSkillToInsert.setSkill(evSkill.getSkill());
 			evSkillToInsert.setLevel(evSkill.getLevel());
-			evSkillToInsert.setUser(evSkill.getUser());
+//			evSkillToInsert.setUser(evSkill.getUser());
 		
 				entityManager.persist(evSkillToInsert);
 			}

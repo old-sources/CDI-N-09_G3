@@ -218,8 +218,8 @@ var tabProject = {
 				$('.projectModal').click(function(){tabProject.projectModal($(this).attr('data-ind'));});
 				$('.projectAddMe').click(function(){tabProject.projectAddMe($(this).attr('data-id'),$(this).attr('data-name'));});
 				
-				//$(".UpdateProject").click(function(){location.href='project/'+$(this).attr('data-id')});
-				$(".UpdateProject").click(function(){location.href='project.php?id='+$(this).attr('data-id');});
+				$(".UpdateProject").click(function(){location.href='project/'+$(this).attr('data-id')});
+				//$(".UpdateProject").click(function(){location.href='project.php?id='+$(this).attr('data-id');});
 
 				$(".deleteProject").click(function(){
 					tabProject.remove($(this).attr('data-id'));
@@ -307,7 +307,7 @@ var tabUser = {
 					tabUser.tab.push(new user(json[i]));
 				}
 
-				$('#selectDashboardUserYearName').val("CDI09");
+				$('#selectDashboardUserYearName').val("CDI03");
 				$('#inputDashboardUserActive').prop('checked', true);
 				
 				$('.searchUserText').keyup(function(){tabUser.displayUser();});
@@ -415,6 +415,8 @@ var tabUser = {
 				$(".deleteUser").click(function(){
 					tabUser.remove($(this).attr('data-id'));
 				});
+				
+				
 			}
 		}
 	},
