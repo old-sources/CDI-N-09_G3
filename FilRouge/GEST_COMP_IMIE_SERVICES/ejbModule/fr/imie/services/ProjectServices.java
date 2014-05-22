@@ -88,10 +88,7 @@ public class ProjectServices implements IProjectServices{
 	public List<Project> findAllProjectsWithOutMembers() {
 		TypedQuery<Project> query=entityManager.createQuery("SELECT p FROM Project p ",Project.class);
 		List<Project> result=query.getResultList();
-		for(Project project:result){
-			project.setMembers(null);
-			project.getProjectManager().setEvaluatedSkills(null);
-		}
+		
 		return result;
 	}
 

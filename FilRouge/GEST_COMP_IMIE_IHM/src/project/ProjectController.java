@@ -63,6 +63,10 @@ public class ProjectController extends HttpServlet {
 			
 			
 			projects=projectService.findAllProjectsWithOutMembers();
+			for(Project project:projects){
+				project.setMembers(null);
+			project.getProjectManager().setEvaluatedSkills(null);
+			}
 			
 			
 
